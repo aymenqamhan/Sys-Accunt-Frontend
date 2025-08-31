@@ -70,8 +70,50 @@ App.js: المكون الرئيسي للتطبيق.
 
 index.js: نقطة الدخول.
 
+
 ⚙️ تشغيل المشروع
-1️⃣ نسخ المشروع
+
+### 1. نسخ المشروع الخاص بالـــ backend
+```bash
+git clone https://github.com/Akil-x/AS.git
+cd AS
+````
+
+### 2. إنشاء وتفعيل البيئة الافتراضية
+
+```bash
+python -m venv venv
+source venv/bin/activate   # على Linux / Mac
+venv\Scripts\activate      # على Windows
+```
+
+### 3. تثبيت المتطلبات
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. تنفيذ الهجرات (migrations)
+
+```bash
+python manage.py migrate
+```
+
+### 5. تشغيل الخادم
+
+```bash
+python manage.py runserver
+```
+
+سيعمل الخادم على:
+👉 `http://127.0.0.1:8000/`
+
+---
+
+
+
+
+1️⃣ نسخ المشروع الخاص بالــ frontend
 ```bash
 git clone https://github.com/aymenqamhan/Sys-Accunt-Frontend.git
 cd team-work
