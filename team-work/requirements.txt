@@ -1,0 +1,18 @@
+react
+react-dom
+react-scripts
+react-router-dom
+axios
+
+react: المكتبة الأساسية لبناء واجهات المستخدم.
+
+react-dom: المكتبة التي تربط React بـ DOM في المتصفح.
+
+react-scripts: مجموعة من السكربتات التي تسهل بناء وتشغيل تطبيق React.
+
+react-router-dom: مكتبة ضرورية لإدارة التوجيه (routing) في التطبيق، وتسمح لك بالانتقال بين الصفحات المختلفة.
+
+axios: مكتبة لإنشاء طلبات HTTP إلى الواجهة الخلفية (Backend).
+
+نسوي الامر التالي لتثبت المكاتب بالكامل
+npm install
