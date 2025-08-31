@@ -48,6 +48,7 @@
 │   ├── App.js
 │   └── index.js
 └── package.json
+```
 📖 شرح المجلدات
 public/ → يحتوي على الأصول الثابتة مثل index.html وملفات PWA (manifest, icons).
 
@@ -71,25 +72,28 @@ index.js: نقطة الدخول.
 
 ⚙️ تشغيل المشروع
 1️⃣ نسخ المشروع
-bash
-Copy code
+```bash
 git clone https://github.com/aymenqamhan/Sys-Accunt-Frontend.git
 cd team-work
+```
 2️⃣ تثبيت المتطلبات
-bash
-Copy code
+```bash
 npm install
+```
 3️⃣ تشغيل الخادم المحلي للـ Backend
-bash
-Copy code
+
+```bash
 python manage.py runserver
+```
+
 🔗 يعمل على: http://127.0.0.1:8000/
 
 4️⃣ تشغيل واجهة React (في Terminal آخر)
-bash
-Copy code
+```bash
 npm start
+```
 🔗 يعمل على: http://localhost:3000/
+
 
 
 
