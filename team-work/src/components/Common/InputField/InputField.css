@@ -1,0 +1,38 @@
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-label {
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500; /* Medium */
+  color: var(--neutral-900);
+}
+
+.input-field {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-main);
+  border: 1px solid var(--neutral-500); /* */
+  background-color: var(--white);
+  font-family: var(--font-family);
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+/* حالة التركيز */
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary-500); /* */
+}
+
+/* حالة الخطأ */
+.input-field.error {
+  border-color: var(--error); /* */
+}
+
+.error-message {
+  margin-top: 4px;
+  color: var(--error);
+  font-size: 14px;
+}

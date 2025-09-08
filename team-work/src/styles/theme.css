@@ -1,0 +1,35 @@
+/* src/styles/theme.css */
+:root {
+  /* --- Color Palette --- */
+  /* Primary Colors */
+  --primary-500: #1E40AE; /* [cite: 7] */
+  --primary-400: #2563EA; /* [cite: 8] */
+
+  /* Neutral Colors */
+  --neutral-900: #121828; /* [cite: 10] */
+  --neutral-500: #F3F4F6; /* [cite: 12] */
+  --neutral-100: #EFEFEF; /* [cite: 11] */
+  --white: #FFFFFF;       /* [cite: 13] */
+  --disabled-text: #B5B5B5; /* [cite: 39] */
+
+  /* Semantic Colors */
+  --success: #10B981; /*  */
+  --error: #EF4444;   /*  */
+  --warning: #F59E0B; /*  */
+
+  /* --- Typography --- */
+  --font-family: 'Cairo', sans-serif; /* [cite: 18] */
+
+  /* --- Spacing & Corners --- */
+  --spacing-sm: 8px;   /* [cite: 27] */
+  --spacing-md: 16px;  /* [cite: 28] */
+  --spacing-lg: 24px;  /* [cite: 29] */
+  --border-radius-main: 8px; /* [cite: 30] */
+  --border-radius-circle: 50%; /* [cite: 31] */
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--neutral-100); /* [cite: 11] */
+  color: var(--neutral-900); /* [cite: 10] */
+}

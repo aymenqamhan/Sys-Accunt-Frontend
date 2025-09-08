@@ -1,0 +1,45 @@
+.header {
+  height: 70px;
+  background-color: var(--neutral-500);
+  padding: 0 var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--neutral-500);
+}
+
+.page-title h2 {
+  font-family: 'Cairo', sans-serif; 
+  font-weight: 700; 
+  font-size: 24px;
+  color: var(--neutral-900);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md); 
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.user-name {
+  font-weight: 600; 
+}
+
+.user-role {
+  font-size: 14px;
+  color: var(--neutral-900);
+  opacity: 0.7;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--border-radius-circle); 
+  object-fit: cover;
+}

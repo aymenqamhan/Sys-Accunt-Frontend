@@ -1,0 +1,17 @@
+.layout {
+  display: flex;
+  direction: rtl; /* For Right-to-Left layout */
+}
+
+.main-content {
+  flex: 1; /* Takes the remaining space */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.page-content {
+  padding: var(--spacing-lg);
+  flex: 1;
+}

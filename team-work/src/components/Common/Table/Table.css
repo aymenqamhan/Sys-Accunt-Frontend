@@ -1,0 +1,29 @@
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--white);
+  border-radius: var(--border-radius-main);
+  border: 1px solid var(--neutral-500);
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: var(--spacing-md);
+  text-align: right;
+  border-bottom: 1px solid var(--neutral-500);
+}
+
+.custom-table th {
+  background-color: var(--neutral-500);
+  font-weight: 600; /* SemiBold */
+}
+
+/* لإزالة الخط السفلي من آخر صف */
+.custom-table tr:last-child td {
+  border-bottom: none;
+}

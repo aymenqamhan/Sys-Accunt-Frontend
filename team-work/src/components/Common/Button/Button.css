@@ -1,0 +1,38 @@
+.btn {
+  padding: var(--spacing-sm) var(--spacing-md); /* 8px 16px */
+  border-radius: var(--border-radius-main); /* 8px */
+  border: 1px solid transparent;
+  font-family: var(--font-family);
+  font-weight: 500; /* Medium weight */
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Primary Button Styles */
+.btn.primary {
+  background-color: var(--primary-500); /* #1E40AE */
+  color: var(--white);
+}
+
+.btn.primary:hover {
+  background-color: var(--primary-400); /* #2563EA */
+}
+
+/* Secondary Button Styles */
+.btn.secondary {
+  background-color: transparent;
+  color: var(--primary-500); /* #1E40AE */
+  border-color: var(--primary-500); /* #1E40AE */
+}
+
+.btn.secondary:hover {
+  background-color: var(--neutral-500); /* #F3F4F6 */
+}
+
+/* Disabled State */
+.btn:disabled {
+  background-color: var(--neutral-500); /* #F3F4F6 */
+  color: var(--disabled-text); /* #B5B5B5 */
+  cursor: not-allowed;
+  border-color: transparent;
+}
