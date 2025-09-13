@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
-import { 
-  LuLayoutDashboard, LuBoxes, LuShoppingCart, 
-  LuUsers, LuReceipt, LuSettings 
+import {
+  LuLayoutDashboard, LuBoxes, LuShoppingCart,
+  LuUsers, LuReceipt, LuSettings
 } from 'react-icons/lu';
 
 import IbexProLogo from '../../../assets/ibex-pro-logo-light.svg';
@@ -15,6 +15,7 @@ const navLinks = [
   { to: '/inventory', text: 'إدارة المخزون', icon: <LuBoxes /> },
   { to: '/users', text: 'إدارة المستخدمين', icon: <LuUsers /> },
   { to: '/settings', text: 'الإعدادات', icon: <LuSettings /> },
+  { to: '/ChangePasswordPage', text: 'تغيير كلمة المرور', icon: <LuSettings /> },
 ];
 
 const Sidebar = () => {

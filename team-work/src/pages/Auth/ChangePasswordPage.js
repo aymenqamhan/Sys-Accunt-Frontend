@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { changePassword } from '../../api/auth';
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
+import Loader from '../../components/Common/Loader/Loader';
 
 const ChangePasswordPage = () => {
     const [formData, setFormData] = useState({
@@ -10,8 +11,9 @@ const ChangePasswordPage = () => {
         new_password: '',
         new_password_confirm: '',
     });
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -20,41 +22,42 @@ const ChangePasswordPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
-        setSuccess(null);
-
-        // التحقق من تطابق كلمات المرور الجديدة
         if (formData.new_password !== formData.new_password_confirm) {
             setError('كلمة المرور الجديدة وتأكيدها غير متطابقين.');
             return;
         }
 
+        setLoading(true);
+        setError('');
+        setSuccess('');
+
         try {
-            const response = await changePassword(formData);
-            console.log('Password change successful:', response.data);
-            setSuccess('تم تغيير كلمة المرور بنجاح. سيتم توجيهك الآن إلى صفحة تسجيل الدخول.');
-            // بعد تغيير كلمة المرور بنجاح، قم بتوجيه المستخدم إلى صفحة تسجيل الدخول
+            // نرسل فقط البيانات التي يتوقعها الـ API
+            const apiData = {
+                old_password: formData.old_password,
+                new_password: formData.new_password
+            };
+
+            await changePassword(apiData);
+            setSuccess('تم تغيير كلمة المرور بنجاح. سيتم توجيهك لصفحة الدخول.');
+
+            // تسجيل خروج المستخدم وتوجيهه لصفحة الدخول
             setTimeout(() => {
+                localStorage.removeItem('token');
                 navigate('/login');
             }, 3000);
+
         } catch (err) {
-            console.error('Password change error:', err.response || err);
-            if (err.response && err.response.data) {
-                const errorData = err.response.data;
-                if (typeof errorData === 'object') {
-                    const errorMessage = Object.values(errorData).flat().join(' ');
-                    setError(errorMessage);
-                } else {
-                    setError(errorData);
-                }
-            } else {
-                setError('حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.');
-            }
+            setError('فشل تغيير كلمة المرور. تأكد من كلمة المرور القديمة.');
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="auth-container">
+            {loading && <Loader />}
             <h2 className="auth-title">تغيير كلمة المرور</h2>
             <form onSubmit={handleSubmit} className="auth-form">
                 <InputField
@@ -81,10 +84,10 @@ const ChangePasswordPage = () => {
                     onChange={handleChange}
                     required
                 />
-                <Button type="submit">تغيير كلمة المرور</Button>
+                <Button type="submit" disabled={loading}>تحديث كلمة المرور</Button>
             </form>
-            {success && <p className="auth-success-message">{success}</p>}
             {error && <p className="auth-error-message">{error}</p>}
+            {success && <p className="auth-success-message">{success}</p>}
         </div>
     );
 };

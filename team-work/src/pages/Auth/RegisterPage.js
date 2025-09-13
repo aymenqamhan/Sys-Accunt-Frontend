@@ -1,20 +1,23 @@
+
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../../api/auth';
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
+import Loader from '../../components/Common/Loader/Loader';
 
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
+        email: '',
         username: '',
         full_name: '',
         phone: '',
-        email: '',
         password: '',
         password_confirm: '',
     });
-    const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(null);
+
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -23,36 +26,51 @@ const RegisterPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
-        setSuccess(null);
+
+        // تحقق من تطابق كلمتي المرور
+        if (formData.password !== formData.password_confirm) {
+            setError('كلمتا المرور غير متطابقتين.');
+            return;
+        }
+
+        setLoading(true);
+        setError('');
 
         try {
-            const response = await register(formData);
-            console.log('Registration successful:', response.data);
-            setSuccess('تم إنشاء الحساب بنجاح. يمكنك الآن تسجيل الدخول.');
-            setTimeout(() => {
-                navigate('/');
-            }, 3000);
+            const apiData = {
+                email: formData.email,
+                username: formData.username,
+                full_name: formData.full_name,
+                phone: formData.phone,
+                password: formData.password,
+                password_confirm: formData.password_confirm,
+            };
+
+            await register(apiData);
+
+            // نجاح → الانتقال لصفحة التحقق مع تمرير البريد
+            navigate('/VerifyEmailPage', { state: { email: formData.email } });
         } catch (err) {
-            console.error('Registration error:', err.response || err);
-            if (err.response && err.response.data) {
-                const errorData = err.response.data;
-                if (typeof errorData === 'object') {
-                    const errorMessage = Object.values(errorData).flat().join(' ');
-                    setError(errorMessage);
-                } else {
-                    setError(errorData);
-                }
-            } else {
-                setError('حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.');
-            }
+            setError('فشل إنشاء الحساب. قد يكون البريد الإلكتروني أو اسم المستخدم موجودًا بالفعل.');
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div style={{ padding: '20px' }}>
-            <h2>إنشاء حساب جديد</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="auth-container">
+            {loading && <Loader />}
+            <h2 className="auth-title">إنشاء حساب جديد</h2>
+            <form onSubmit={handleSubmit} className="auth-form">
+                <InputField
+                    label="البريد الإلكتروني"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
                 <InputField
                     label="اسم المستخدم"
                     name="username"
@@ -78,14 +96,6 @@ const RegisterPage = () => {
                     required
                 />
                 <InputField
-                    label="البريد الإلكتروني"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
                     label="كلمة المرور"
                     name="password"
                     type="password"
@@ -101,13 +111,14 @@ const RegisterPage = () => {
                     onChange={handleChange}
                     required
                 />
-                <Button type="submit">تسجيل</Button>
+                <Button type="submit" disabled={loading}>إنشاء حساب</Button>
             </form>
-            {success && <p style={{ color: 'green' }}>{success}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <p>
-                هل لديك حساب بالفعل؟ <Link to="/login">تسجيل الدخول</Link>
-            </p>
+
+            {error && <p className="auth-error-message">{error}</p>}
+
+            <div className="auth-links">
+                <Link to="/login">هل لديك حساب؟ تسجيل الدخول</Link>
+            </div>
         </div>
     );
 };
