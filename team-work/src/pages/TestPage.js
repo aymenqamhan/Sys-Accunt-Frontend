@@ -2,7 +2,6 @@
 import React from 'react';
 import Button from '../components/Common/Button/Button';
 import InputField from '../components/Common/InputField/InputField';
-import Card from '../components/Common/Card/Card'; // افترض أنك أنشأت مكون Card
 
 const TestPage = () => {
   return (

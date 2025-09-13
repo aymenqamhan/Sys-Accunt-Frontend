@@ -1,15 +1,19 @@
+
+
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../../api/auth';
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
+import Loader from '../../components/Common/Loader/Loader';
 
 const LoginPage = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
-    const [error, setError] = useState(null);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -18,37 +22,42 @@ const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
+        setLoading(true);
+        setError('');
 
         try {
             const response = await login(formData);
 
-            // تحقق من أن الاستجابة تحتوي على حقل 'access'
-            console.log('Login response:', response);
-            if (response.data && response.data.tokens) {
-                // حفظ الرمز في التخزين المحلي للمتصفح
+            // جلب كلا التوكنين من الرد
+            const accessToken = response.data?.tokens?.access;
+            const refreshToken = response.data?.tokens?.refresh;
 
-                console.log('Login successful! Token saved:', response.data.tokens);
+            // التأكد من وجود كلا التوكنين قبل المتابعة
+            if (accessToken && refreshToken) {
+                // حفظ كل البيانات اللازمة في التخزين المحلي
+                localStorage.setItem('token', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+
                 // توجيه المستخدم إلى لوحة التحكم
                 navigate('/dashboard');
             } else {
-                setError('Login failed: Invalid credentials or token not received.');
+                setError('فشل تسجيل الدخول. لم يتم استلام التوكنات بشكل صحيح.');
             }
+
         } catch (err) {
-            // التعامل مع أخطاء تسجيل الدخول (مثل 401 Unauthorized أو 400 Bad Request)
-            console.error('Login error:', err.response || err);
-            if (err.response && err.response.data && err.response.data.detail) {
-                setError(err.response.data.detail);
-            } else {
-                setError('An unexpected error occurred. Please try again.');
-            }
+            setError('فشل تسجيل الدخول. يرجى التحقق من البريد الإلكتروني وكلمة المرور.');
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="login-container">
-            <h2>تسجيل الدخول</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="auth-container">
+            {loading && <Loader />}
+            <h2 className="auth-title">تسجيل الدخول</h2>
+            <form onSubmit={handleSubmit} className="auth-form">
                 <InputField
                     label="البريد الإلكتروني"
                     name="email"
@@ -65,9 +74,15 @@ const LoginPage = () => {
                     onChange={handleChange}
                     required
                 />
-                <Button type="submit">دخول</Button>
+                <Button type="submit" disabled={loading}>دخول</Button>
             </form>
-            {error && <p className="error-message">{error}</p>}
+            {error && <p className="auth-error-message">{error}</p>}
+
+
+            <div className="auth-links">
+                <Link to="/register">ليس لديك حساب؟</Link>
+
+            </div>
         </div>
     );
 };

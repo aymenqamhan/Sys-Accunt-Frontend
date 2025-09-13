@@ -14,17 +14,23 @@ const Table = ({ columns, data }) => {
           <tr>
             {columns.map((col) => (
               <th key={col.key}>{col.header}</th>
+
             ))}
           </tr>
         </thead>
         <tbody>
-          {data.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {columns.map((col) => (
-                <td key={`${rowIndex}-${col.key}`}>{row[col.key]}</td>
-              ))}
-            </tr>
-          ))}
+          {
+            data.map((row, rowIndex) => (
+              <tr key={row.user_id || rowIndex}>
+                {columns.map((col) => (
+
+                  <td key={`${col.key}-${row.user_id || rowIndex}`}>
+                    {/* التحقق من وجود دالة عرض مخصصة للعمود */}
+                    {col.render ? col.render(row) : row[col.key]}
+                  </td>
+                ))}
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
