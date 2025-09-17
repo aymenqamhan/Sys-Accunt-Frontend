@@ -49,7 +49,8 @@ const RegisterPage = () => {
             await register(apiData);
 
             // نجاح → الانتقال لصفحة التحقق مع تمرير البريد
-            navigate('/VerifyEmailPage', { state: { email: formData.email } });
+            // This is the corrected line
+            navigate('/verify-email', { state: { email: formData.email } });
         } catch (err) {
             setError('فشل إنشاء الحساب. قد يكون البريد الإلكتروني أو اسم المستخدم موجودًا بالفعل.');
             console.error(err);
