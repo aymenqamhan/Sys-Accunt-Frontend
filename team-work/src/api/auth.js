@@ -16,3 +16,9 @@ export const token = () => API.post('/auth/token/');
 export const refreshToken = () => API.post('/auth/token/refresh/');
 
 export const verifyemail = (formData) => API.post('/auth/verify-email/', formData);
+
+
+
+export const getUserProfile = () => API.get('/auth/profile/');
+
+export const updateUserProfile = (profileData) => API.patch('/auth/profile/', profileData);

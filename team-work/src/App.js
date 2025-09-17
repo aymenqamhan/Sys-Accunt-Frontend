@@ -84,7 +84,6 @@
 
 
 
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 
@@ -95,18 +94,41 @@ import Layout from './components/Layout/Layout';
 import LoginPage from './pages/Auth/LoginPage';
 import RegisterPage from './pages/Auth/RegisterPage';
 import ChangePasswordPage from './pages/Auth/ChangePasswordPage';
-// تم تصحيح الاسم والمسار هنا ليكون أوضح
 import VerifyEmailPage from './pages/Auth/VerifyEmailPage';
-
-
 
 // --- استيراد الصفحات الداخلية ---
 import DashboardPage from './pages/Dashboard/DashboardPage';
 import TestPage from './pages/TestPage';
-
-//    ١. استيراد صفحات المستخدمين الجديدة
 import UserListPage from './pages/Users/UserListPage';
 import UserFormPage from './pages/Users/UserFormPage';
+// +++ استيراد صفحات الملف الشخصي +++
+import ProfilePage from './pages/Profile/ProfilePage';
+import EditProfilePage from './pages/Profile/EditProfilePage';
+
+import ReturnListPage from './pages/Returns/ReturnListPage';
+import ReturnFormPage from './pages/Returns/ReturnFormPage';
+
+import PaymentListPage from './pages/Payments/PaymentListPage';
+import PaymentFormPage from './pages/Payments/PaymentFormPage';
+
+import CurrencyListPage from './pages/Currencies/CurrencyListPage';
+import CurrencyFormPage from './pages/Currencies/CurrencyFormPage';
+
+
+import CategoryListPage from './pages/Categories/CategoryListPage';
+import CategoryFormPage from './pages/Categories/CategoryFormPage';
+
+import InventoryListPage from './pages/Inventory/InventoryListPage';
+import InventoryFormPage from './pages/Inventory/InventoryFormPage';
+
+
+import CustomerListPage from './pages/Customers/CustomerListPage';
+import CustomerFormPage from './pages/Customers/CustomerFormPage';
+
+
+// You might not need separate routes for details, they could be part of the main invoice page
+import PurchaseInvoiceDetailsFormPage from './pages/Purchases/PurchaseInvoiceDetailsFormPage';
+
 
 /**
  * هذا المكون يغلف كل الصفحات التي تحتاج إلى Sidebar و Header
@@ -127,29 +149,66 @@ const App = () => {
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        {/* تم تحديث المسار هنا ليكون أوضح */}
-        <Route path="/VerifyEmailPage" element={<VerifyEmailPage />} />
-        {/* هذا المسار يجب أن يكون داخلياً (بعد تسجيل الدخول) */}
-
+        <Route path="/verify-email" element={<VerifyEmailPage />} /> {/* تصحيح بسيط لاسم المسار */}
 
         {/* --- المسارات الداخلية (التي تظهر داخل الهيكل) --- */}
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/ChangePasswordPage" element={<ChangePasswordPage />} />
+          <Route path="/change-password" element={<ChangePasswordPage />} /> {/* تصحيح بسيط لاسم المسار */}
           <Route path="/test" element={<TestPage />} />
 
-
-          {/*    ٢. إضافة المسارات الخاصة بالمستخدمين هنا */}
+          {/* المسارات الخاصة بالمستخدمين */}
           <Route path="/users" element={<UserListPage />} />
           <Route path="/users/new" element={<UserFormPage />} />
           <Route path="/users/edit/:userId" element={<UserFormPage />} />
 
-          {/* أضف هنا بقية صفحاتك الداخلية مثل المبيعات والمخزون والمستخدمين */}
-          {/* <Route path="/users" element={<UserListPage />} /> */}
-        </Route>
+          {/* +++ إضافة المسارات الخاصة بالملف الشخصي هنا +++ */}
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/edit" element={<EditProfilePage />} />
 
+
+          <Route path="/returns" element={<ReturnListPage />} />
+          <Route path="/returns/new" element={<ReturnFormPage />} />
+          <Route path="/returns/edit/:returnId" element={<ReturnFormPage />} />
+
+
+
+          <Route path="/payments" element={<PaymentListPage />} />
+          <Route path="/payments/new" element={<PaymentFormPage />} />
+          <Route path="/payments/edit/:paymentId" element={<PaymentFormPage />} />
+
+
+
+          <Route path="/Currencies" element={<CurrencyListPage />} />
+          <Route path="/Currencies/new" element={<CurrencyFormPage />} />
+          <Route path="/Currencies/edit/:currencyId" element={<CurrencyFormPage />} />
+
+
+          <Route path="/categories" element={<CategoryListPage />} />
+          <Route path="/categories/new" element={<CategoryFormPage />} />
+          <Route path="/categories/edit/:categoryId" element={<CategoryFormPage />} />
+
+
+          <Route path="/inventory" element={<InventoryListPage />} />
+          <Route path="/inventory/new" element={<InventoryFormPage />} />
+          <Route path="/inventory/edit/:itemId" element={<InventoryFormPage />} />
+
+
+
+          <Route path="/purchases/:invoiceId/details/new" element={<PurchaseInvoiceDetailsFormPage />} />
+          <Route path="/purchases/:invoiceId/details/edit/:detailId" element={<PurchaseInvoiceDetailsFormPage />} />
+
+
+          <Route path="/customers" element={<CustomerListPage />} />
+          <Route path="/customers/new" element={<CustomerFormPage />} />
+          <Route path="/customers/edit/:customerId" element={<CustomerFormPage />} />
+          {/* أضف هنا بقية صفحاتك الداخلية */}
+          {/* <Route path="/verify-email" element={<VerifyEmailPage />} /> */}
+
+        </Route>
       </Routes>
     </Router>
+
   );
 };
 
