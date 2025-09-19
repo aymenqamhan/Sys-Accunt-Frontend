@@ -1,4 +1,4 @@
-// src/App.js
+// src/App.js (النسخة النهائية بعد الدمج)
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
@@ -17,8 +17,20 @@ import DashboardPage from './pages/Dashboard/DashboardPage';
 import TestPage from './pages/TestPage';
 import UserListPage from './pages/Users/UserListPage';
 import UserFormPage from './pages/Users/UserFormPage';
+import ProfilePage from './pages/Profile/ProfilePage';
+import EditProfilePage from './pages/Profile/EditProfilePage';
+import ReturnListPage from './pages/Returns/ReturnListPage';
+import ReturnFormPage from './pages/Returns/ReturnFormPage';
+import PaymentListPage from './pages/Payments/PaymentListPage';
+import PaymentFormPage from './pages/Payments/PaymentFormPage';
+import CurrencyListPage from './pages/Currencies/CurrencyListPage';
+import CurrencyFormPage from './pages/Currencies/CurrencyFormPage';
+import CategoryListPage from './pages/Categories/CategoryListPage';
+import CategoryFormPage from './pages/Categories/CategoryFormPage';
+import InventoryListPage from './pages/Inventory/InventoryListPage';
+import InventoryFormPage from './pages/Inventory/InventoryFormPage';
 
-// --- استيراد الصفحات الجديدة التي تم إنشاؤها ---
+// --- استيراد صفحات مهامك ---
 import CustomerListPage from './pages/Customers/CustomerListPage';
 import CustomerFormPage from './pages/Customers/CustomerFormPage';
 import SupplierListPage from './pages/Suppliers/SupplierListPage';
@@ -27,6 +39,7 @@ import SalesInvoiceListPage from './pages/Sales/SalesInvoiceListPage';
 import SalesInvoiceFormPage from './pages/Sales/SalesInvoiceFormPage';
 import PurchaseInvoiceListPage from './pages/Purchases/PurchaseInvoiceListPage';
 import PurchaseInvoiceFormPage from './pages/Purchases/PurchaseInvoiceFormPage';
+import PurchaseInvoiceDetailsFormPage from './pages/Purchases/PurchaseInvoiceDetailsFormPage';
 
 
 const AppLayout = () => {
@@ -42,43 +55,73 @@ const App = () => {
     <Router>
       <Routes>
         {/* --- المسارات العامة (بدون Sidebar أو Header) --- */}
-        {/* <Route path="/" element={<LoginPage />} /> */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/VerifyEmailPage" element={<VerifyEmailPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
 
         {/* --- المسارات الداخلية (التي تظهر داخل الهيكل) --- */}
         <Route element={<AppLayout />}>
+          <Route path="/" element={<DashboardPage />} /> {/* الصفحة الرئيسية بعد الدخول */}
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/ChangePasswordPage" element={<ChangePasswordPage />} />
+          <Route path="/change-password" element={<ChangePasswordPage />} />
           <Route path="/test" element={<TestPage />} />
 
-          {/* --- مسارات إدارة المستخدمين --- */}
+           {/* المسارات الخاصة بالمستخدمين */}
           <Route path="/users" element={<UserListPage />} />
           <Route path="/users/new" element={<UserFormPage />} />
           <Route path="/users/edit/:userId" element={<UserFormPage />} />
+          
+          {/* مسارات الملف الشخصي */}
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/edit" element={<EditProfilePage />} />
 
-          {/* --- مسارات إدارة العملاء --- */}
-          <Route path="/" element={<CustomerListPage />} />
+          {/* مسارات المرتجعات */}
+          <Route path="/returns" element={<ReturnListPage />} />
+          <Route path="/returns/new" element={<ReturnFormPage />} />
+          <Route path="/returns/edit/:returnId" element={<ReturnFormPage />} />
+
+          {/* مسارات المدفوعات */}
+          <Route path="/payments" element={<PaymentListPage />} />
+          <Route path="/payments/new" element={<PaymentFormPage />} />
+          <Route path="/payments/edit/:paymentId" element={<PaymentFormPage />} />
+
+          {/* مسارات العملات */}
+          <Route path="/currencies" element={<CurrencyListPage />} />
+          <Route path="/currencies/new" element={<CurrencyFormPage />} />
+          <Route path="/currencies/edit/:currencyId" element={<CurrencyFormPage />} />
+
+          {/* مسارات الأصناف */}
+          <Route path="/categories" element={<CategoryListPage />} />
+          <Route path="/categories/new" element={<CategoryFormPage />} />
+          <Route path="/categories/edit/:categoryId" element={<CategoryFormPage />} />
+
+          {/* مسارات المخزون */}
+          <Route path="/inventory" element={<InventoryListPage />} />
+          <Route path="/inventory/new" element={<InventoryFormPage />} />
+          <Route path="/inventory/edit/:itemId" element={<InventoryFormPage />} />
+          
+          {/* مسارات إدارة العملاء */}
           <Route path="/customers" element={<CustomerListPage />} />
           <Route path="/customers/new" element={<CustomerFormPage />} />
           <Route path="/customers/edit/:customerId" element={<CustomerFormPage />} />
           
-          {/* --- مسارات إدارة الموردين --- */}
+          {/* مسارات إدارة الموردين */}
           <Route path="/suppliers" element={<SupplierListPage />} />
           <Route path="/suppliers/new" element={<SupplierFormPage />} />
           <Route path="/suppliers/edit/:supplierId" element={<SupplierFormPage />} />
 
-          {/* --- مسارات إدارة المبيعات --- */}
+          {/* مسارات إدارة المبيعات */}
           <Route path="/sales" element={<SalesInvoiceListPage />} />
           <Route path="/sales/new" element={<SalesInvoiceFormPage />} />
           <Route path="/sales/edit/:invoiceId" element={<SalesInvoiceFormPage />} />
 
-          {/* --- مسارات إدارة المشتريات --- */}
+          {/* مسارات إدارة المشتريات */}
           <Route path="/purchases" element={<PurchaseInvoiceListPage />} />
           <Route path="/purchases/new" element={<PurchaseInvoiceFormPage />} />
           <Route path="/purchases/edit/:invoiceId" element={<PurchaseInvoiceFormPage />} />
-          
+          <Route path="/purchases/:invoiceId/details/new" element={<PurchaseInvoiceDetailsFormPage />} />
+          <Route path="/purchases/:invoiceId/details/edit/:detailId" element={<PurchaseInvoiceDetailsFormPage />} />
+
         </Route>
       </Routes>
     </Router>

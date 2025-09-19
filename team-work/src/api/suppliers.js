@@ -1,7 +1,23 @@
-import API from './axios';
+// src/api/suppliers.js (النسخة النهائية بعد الدمج)
 
-export const getSuppliers = () => API.get('/api/suppliers/');
-export const getSupplier = (id) => API.get(`/api/suppliers/${id}/`);
-export const createSupplier = (formData) => API.post('/api/suppliers/', formData);
-export const updateSupplier = (id, formData) => API.put(`/api/suppliers/${id}/`, formData);
-export const deleteSupplier = (id) => API.delete(`/api/suppliers/${id}/`);
+import apiClient from './axios';
+
+// دالة لجلب قائمة كل الموردين
+// GET /api/suppliers/
+export const getSuppliers = () => apiClient.get('/api/suppliers/');
+
+// دالة لجلب مورد واحد عن طريق المعرّف (ID)
+// GET /api/suppliers/{id}/
+export const getSupplier = (id) => apiClient.get(`/api/suppliers/${id}/`);
+
+// دالة لإنشاء مورد جديد
+// POST /api/suppliers/
+export const createSupplier = (formData) => apiClient.post('/api/suppliers/', formData);
+
+// دالة لتحديث بيانات مورد
+// PUT /api/suppliers/{id}/
+export const updateSupplier = (id, formData) => apiClient.put(`/api/suppliers/${id}/`, formData);
+
+// دالة لحذف مورد
+// DELETE /api/suppliers/{id}/
+export const deleteSupplier = (id) => apiClient.delete(`/api/suppliers/${id}/`);

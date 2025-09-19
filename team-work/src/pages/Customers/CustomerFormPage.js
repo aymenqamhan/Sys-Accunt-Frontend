@@ -1,5 +1,8 @@
+// src/pages/Customers/CustomerFormPage.js (Final Merged Version)
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+// Use the corrected function name from your previous merge
 import { createCustomer, getCustomer, updateCustomer } from '../../api/customers';
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
@@ -7,7 +10,8 @@ import Loader from '../../components/Common/Loader/Loader';
 
 const CustomerFormPage = () => {
     const [formData, setFormData] = useState({
-        name: '',
+        // Use full_name to match the main branch and backend
+        full_name: '',
         email: '',
         phone: '',
         address: ''
@@ -21,6 +25,7 @@ const CustomerFormPage = () => {
     useEffect(() => {
         if (isEditMode) {
             setLoading(true);
+            // Use getCustomer as resolved in the api/customers.js file
             getCustomer(customerId)
                 .then(response => {
                     setFormData(response.data);
@@ -32,6 +37,7 @@ const CustomerFormPage = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        // Use the safer functional update for state
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
@@ -48,6 +54,7 @@ const CustomerFormPage = () => {
             }
             navigate('/customers');
         } catch (err) {
+            // Use the more descriptive Arabic error message
             setError('فشل حفظ العميل. يرجى التحقق من البيانات المدخلة.');
             console.error(err);
         } finally {
@@ -59,14 +66,15 @@ const CustomerFormPage = () => {
 
     return (
         <div>
-            <h1>{isEditMode ? 'تعديل عميل' : 'إضافة عميل جديد'}</h1>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <InputField label="الاسم" name="name" value={formData.name} onChange={handleChange} required />
+            <h1>{isEditMode ? 'تعديل بيانات العميل' : 'إضافة عميل جديد'}</h1>
+            {/* Use the cleaner form tag and more descriptive button text from main */}
+            <form onSubmit={handleSubmit}>
+                <InputField label="الاسم الكامل" name="full_name" value={formData.full_name} onChange={handleChange} required />
                 <InputField label="البريد الإلكتروني" name="email" type="email" value={formData.email} onChange={handleChange} />
-                <InputField label="الهاتف" name="phone" value={formData.phone} onChange={handleChange} />
+                <InputField label="رقم الهاتف" name="phone" value={formData.phone} onChange={handleChange} required />
                 <InputField label="العنوان" name="address" value={formData.address} onChange={handleChange} />
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <Button type="submit" disabled={loading}>{loading ? 'جاري الحفظ...' : 'حفظ'}</Button>
+                {error && <p className="error-message">{error}</p>}
+                <Button type="submit" disabled={loading}>{loading ? 'جاري الحفظ...' : 'حفظ العميل'}</Button>
             </form>
         </div>
     );

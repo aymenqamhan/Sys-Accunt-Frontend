@@ -1,3 +1,5 @@
+// src/pages/Customers/CustomerListPage.js (Final Merged Version)
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCustomers, deleteCustomer } from '../../api/customers';
@@ -34,6 +36,7 @@ const CustomerListPage = () => {
         if (window.confirm('هل أنت متأكد أنك تريد حذف هذا العميل؟')) {
             try {
                 await deleteCustomer(id);
+                // Use the safer functional update from your branch
                 setCustomers(currentCustomers => currentCustomers.filter(customer => customer.customer_id !== id));
             } catch (err) {
                 setError('فشل حذف العميل.');
@@ -43,7 +46,8 @@ const CustomerListPage = () => {
     };
 
     const columns = [
-        { header: 'الاسم', key: 'name' },
+        // Use full_name from the main branch
+        { header: 'الاسم الكامل', key: 'full_name' },
         { header: 'البريد الإلكتروني', key: 'email' },
         { header: 'الهاتف', key: 'phone' },
         { header: 'العنوان', key: 'address' },
