@@ -48,6 +48,8 @@ const SalesInvoiceListPage = () => {
             key: 'actions',
             render: (invoice) => (
                 <div style={{ display: 'flex', gap: '5px' }}>
+                    {/* --- ✨ زر التفاصيل المضاف --- */}
+                    <Button onClick={() => navigate(`/sales/${invoice.invoice_id}/details`)}>التفاصيل</Button>
                     <Button onClick={() => handleEdit(invoice.invoice_id)}>تعديل</Button>
                     <Button onClick={() => handleDelete(invoice.invoice_id)} variant="secondary">حذف</Button>
                 </div>
