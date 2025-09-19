@@ -42,7 +42,7 @@ const App = () => {
     <Router>
       <Routes>
         {/* --- المسارات العامة (بدون Sidebar أو Header) --- */}
-        <Route path="/" element={<LoginPage />} />
+        {/* <Route path="/" element={<LoginPage />} /> */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/VerifyEmailPage" element={<VerifyEmailPage />} />
@@ -59,6 +59,7 @@ const App = () => {
           <Route path="/users/edit/:userId" element={<UserFormPage />} />
 
           {/* --- مسارات إدارة العملاء --- */}
+          <Route path="/" element={<CustomerListPage />} />
           <Route path="/customers" element={<CustomerListPage />} />
           <Route path="/customers/new" element={<CustomerFormPage />} />
           <Route path="/customers/edit/:customerId" element={<CustomerFormPage />} />
