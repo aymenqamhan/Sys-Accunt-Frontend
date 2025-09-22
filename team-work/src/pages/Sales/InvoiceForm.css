@@ -1,0 +1,78 @@
+.invoice-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-header {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 1rem;
+}
+
+.invoice-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.invoice-item {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.invoice-item select,
+.invoice-item input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.item-subtotal {
+    font-weight: bold;
+    text-align: center;
+}
+
+.invoice-total {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.error-message {
+    color: var(--error-color);
+    background-color: #fdd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
