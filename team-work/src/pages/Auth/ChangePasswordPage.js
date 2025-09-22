@@ -32,14 +32,16 @@ const ChangePasswordPage = () => {
         setSuccess('');
 
         try {
-            // نرسل فقط البيانات التي يتوقعها الـ API
+            //  👇 --- هذا هو التعديل المطلوب --- 👇
             const apiData = {
                 old_password: formData.old_password,
-                new_password: formData.new_password
+                new_password: formData.new_password,
+                confirm_password: formData.new_password_confirm //  <-- أضف هذا السطر
             };
 
             await changePassword(apiData);
             setSuccess('تم تغيير كلمة المرور بنجاح. سيتم توجيهك لصفحة الدخول.');
+
 
             // تسجيل خروج المستخدم وتوجيهه لصفحة الدخول
             setTimeout(() => {

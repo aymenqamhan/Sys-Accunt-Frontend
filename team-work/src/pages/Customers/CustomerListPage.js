@@ -46,6 +46,7 @@ const CustomerListPage = () => {
         { header: 'اسم العميل', key: 'full_name' },
         { header: 'البريد الإلكتروني', key: 'email' },
         { header: 'رقم الهاتف', key: 'phone' },
+        { header: 'العنوان', key: 'address' },
         {
             header: 'الإجراءات',
             key: 'actions',

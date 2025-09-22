@@ -30,7 +30,7 @@ const TestApiPage = () => {
             <ul>
                 {users.length > 0 ? (
                     users.map(user => (
-                        <li key={user.id}>{user.username}</li>
+                        <li key={user.user_id}>{user.username}</li>
                     ))
                 ) : (
                     <p>Loading users...</p>
