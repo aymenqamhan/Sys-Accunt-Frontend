@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+// src/pages/Purchases/PurchaseInvoiceDetailsListPage.js (Corrected)
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-// ✨ تم تصحيح أسماء الدوال المستوردة
 import { getPurchase } from '../../api/purchases';
 import { getPurchaseInvoiceDetails, deletePurchaseInvoiceDetail } from '../../api/purchaseInvoiceDetails';
 
 const PurchaseInvoiceDetailsListPage = () => {
-    const { purchaseId } = useParams();
+    // ✨ ملاحظة: تم تغيير الاسم من purchaseId إلى invoiceId ليتوافق مع السياق العام
+    const { invoiceId } = useParams(); 
     const [purchase, setPurchase] = useState(null);
     const [details, setDetails] = useState([]);
     const [error, setError] = useState(null);
@@ -13,10 +14,9 @@ const PurchaseInvoiceDetailsListPage = () => {
     useEffect(() => {
         const fetchPurchaseDetails = async () => {
             try {
-                // ✨ تم استدعاء الدالة الصحيحة
-                const purchaseRes = await getPurchase(purchaseId);
+                const purchaseRes = await getPurchase(invoiceId);
                 setPurchase(purchaseRes.data);
-                const detailsRes = await getPurchaseInvoiceDetails(purchaseId);
+                const detailsRes = await getPurchaseInvoiceDetails(invoiceId);
                 setDetails(detailsRes.data);
             } catch (err) {
                 setError('Failed to fetch purchase details.');
@@ -24,11 +24,12 @@ const PurchaseInvoiceDetailsListPage = () => {
             }
         };
         fetchPurchaseDetails();
-    }, [purchaseId]);
+    }, [invoiceId]);
 
     const handleDelete = async (detailId) => {
         try {
-            await deletePurchaseInvoiceDetail(purchaseId, detailId);
+            // ✨ ملاحظة: تأكد أن دالة الحذف في الـ API لا تحتاج لـ invoiceId
+            await deletePurchaseInvoiceDetail(detailId); 
             setDetails(details.filter((d) => d.detail_id !== detailId));
         } catch (err) {
             setError('Failed to delete detail.');
@@ -41,15 +42,16 @@ const PurchaseInvoiceDetailsListPage = () => {
 
     return (
         <div>
-            <h2>Details for Purchase #{purchase.purchase_id}</h2>
-            <Link to={`/purchases/${purchaseId}/details/new`}>Add Detail</Link>
+            {/* ✅ تم التصحيح: استخدام invoice_id ليكون متوافقاً مع الأجزاء الأخرى */}
+            <h2>Details for Purchase #{purchase.invoice_id}</h2>
+            <Link to={`/purchases/${invoiceId}/details/new`}>Add Detail</Link>
             <table>
                 <thead>
                     <tr>
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Unit Price</th>
-                        <th>Total Price</th>
+                        <th>Subtotal</th> {/* تم تغيير العنوان ليعكس المحتوى */}
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -58,10 +60,12 @@ const PurchaseInvoiceDetailsListPage = () => {
                         <tr key={detail.detail_id}>
                             <td>{detail.product_name || detail.product}</td>
                             <td>{detail.quantity}</td>
-                            <td>{detail.unit_price}</td>
-                            <td>{detail.total_price}</td>
+                            {/* ✅ تم التصحيح: استخدام detail.price */}
+                            <td>{detail.price}</td>
+                            {/* ✅ تم التصحيح: استخدام detail.subtotal */}
+                            <td>{detail.subtotal}</td>
                             <td>
-                                <Link to={`/purchases/${purchaseId}/details/edit/${detail.detail_id}`}>Edit</Link>
+                                <Link to={`/purchases/${invoiceId}/details/edit/${detail.detail_id}`}>Edit</Link>
                                 <button onClick={() => handleDelete(detail.detail_id)}>Delete</button>
                             </td>
                         </tr>

@@ -1,5 +1,5 @@
+// src/pages/Purchases/PurchaseInvoiceListPage.js (Corrected)
 import React, { useEffect, useState } from 'react';
-// ✨ تم تصحيح أسماء الدوال المستوردة
 import { getPurchases, deletePurchase } from '../../api/purchases';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,6 @@ const PurchaseInvoiceListPage = () => {
     useEffect(() => {
         const fetchPurchases = async () => {
             try {
-                // ✨ تم استدعاء الدالة الصحيحة
                 const response = await getPurchases();
                 setPurchases(response.data);
             } catch (err) {
@@ -23,9 +22,9 @@ const PurchaseInvoiceListPage = () => {
 
     const handleDelete = async (id) => {
         try {
-            // ✨ تم استدعاء الدالة الصحيحة
             await deletePurchase(id);
-            setPurchases(purchases.filter((p) => p.purchase_id !== id));
+            // ✅ تم التصحيح: استخدام invoice_id للفلترة
+            setPurchases(purchases.filter((p) => p.invoice_id !== id));
         } catch (err) {
             setError('Failed to delete purchase.');
             console.error(err);
@@ -49,14 +48,18 @@ const PurchaseInvoiceListPage = () => {
                 </thead>
                 <tbody>
                     {purchases.map((purchase) => (
-                        <tr key={purchase.purchase_id}>
-                            <td>{purchase.purchase_id}</td>
+                        // ✅ تم التصحيح: استخدام invoice_id كـ key
+                        <tr key={purchase.invoice_id}>
+                            {/* ✅ تم التصحيح: عرض invoice_id */}
+                            <td>{purchase.invoice_id}</td>
                             <td>{purchase.supplier_name || purchase.supplier}</td>
                             <td>{new Date(purchase.purchase_date).toLocaleDateString()}</td>
-                            <td>{purchase.total_amount}</td>
+                            {/* ✅ تم التصحيح: عرض total */}
+                            <td>{purchase.total}</td>
                             <td>
-                                <Link to={`/purchases/edit/${purchase.purchase_id}`}>Edit</Link>
-                                <button onClick={() => handleDelete(purchase.purchase_id)}>Delete</button>
+                                {/* ✅ تم التصحيح: استخدام invoice_id في الروابط */}
+                                <Link to={`/purchases/edit/${purchase.invoice_id}`}>Edit</Link>
+                                <button onClick={() => handleDelete(purchase.invoice_id)}>Delete</button>
                             </td>
                         </tr>
                     ))}

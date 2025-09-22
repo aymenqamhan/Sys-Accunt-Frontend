@@ -1,5 +1,5 @@
+// src/pages/Sales/SalesInvoiceListPage.js (Corrected)
 import React, { useEffect, useState } from 'react';
-// ✨ تم تصحيح أسماء الدوال المستوردة
 import { getSales, deleteSale } from '../../api/sales';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,6 @@ const SalesInvoiceListPage = () => {
     useEffect(() => {
         const fetchSales = async () => {
             try {
-                // ✨ تم استدعاء الدالة الصحيحة
                 const response = await getSales();
                 setSales(response.data);
             } catch (err) {
@@ -23,9 +22,9 @@ const SalesInvoiceListPage = () => {
 
     const handleDelete = async (id) => {
         try {
-            // ✨ تم استدعاء الدالة الصحيحة
             await deleteSale(id);
-            setSales(sales.filter((s) => s.sale_id !== id));
+            // ✅ تم التصحيح: استخدام invoice_id للفلترة
+            setSales(sales.filter((s) => s.invoice_id !== id));
         } catch (err) {
             setError('Failed to delete sale.');
             console.error(err);
@@ -34,9 +33,9 @@ const SalesInvoiceListPage = () => {
 
     return (
         <div>
-            <h2>Sales</h2>
+            <h2>Sales Invoices</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <Link to="/sales/new">Add Sale</Link>
+            <Link to="/sales/new">Add Sale Invoice</Link>
             <table>
                 <thead>
                     <tr>
@@ -49,14 +48,18 @@ const SalesInvoiceListPage = () => {
                 </thead>
                 <tbody>
                     {sales.map((sale) => (
-                        <tr key={sale.sale_id}>
-                            <td>{sale.sale_id}</td>
+                        // ✅ تم التصحيح: استخدام invoice_id
+                        <tr key={sale.invoice_id}>
+                            <td>{sale.invoice_id}</td>
                             <td>{sale.customer_name || sale.customer}</td>
-                            <td>{new Date(sale.sale_date).toLocaleDateString()}</td>
-                            <td>{sale.total_amount}</td>
+                            {/* ✅ تم التصحيح: استخدام invoice_date */}
+                            <td>{new Date(sale.invoice_date).toLocaleDateString()}</td>
+                            {/* ✅ تم التصحيح: استخدام total */}
+                            <td>{sale.total}</td>
                             <td>
-                                <Link to={`/sales/edit/${sale.sale_id}`}>Edit</Link>
-                                <button onClick={() => handleDelete(sale.sale_id)}>Delete</button>
+                                {/* ✅ تم التصحيح: استخدام invoice_id في الروابط */}
+                                <Link to={`/sales/edit/${sale.invoice_id}`}>Edit</Link>
+                                <button onClick={() => handleDelete(sale.invoice_id)}>Delete</button>
                             </td>
                         </tr>
                     ))}

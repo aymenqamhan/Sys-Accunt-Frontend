@@ -1,16 +1,20 @@
+// src/pages/Sales/SalesInvoiceDetailsFormPage.js (Corrected)
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getProducts } from '../../api/products';
-import { createSalesInvoiceDetail, getSingleSalesInvoiceDetail, updateSalesInvoiceDetail } from '../../api/salesInvoiceDetails'; // Using the new API file
+import { createSalesInvoiceDetail, getSingleSalesInvoiceDetail, updateSalesInvoiceDetail } from '../../api/salesInvoiceDetails';
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
 import Loader from '../../components/Common/Loader/Loader';
 
 const SalesInvoiceDetailsFormPage = () => {
+    // ✅ تم تعديل الحالة لتطابق الـ API بشكل كامل
     const [formData, setFormData] = useState({
         product: '',
         quantity: 1,
-        unit_price: '',
+        price: '',
+        discount: 0,
+        tax: 0,
     });
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,7 +30,7 @@ const SalesInvoiceDetailsFormPage = () => {
                 setProducts(productsRes.data);
                 if (isEditMode) {
                     const detailRes = await getSingleSalesInvoiceDetail(detailId);
-                    setFormData(detailRes.data);
+                    setFormData(detailRes.data); // ستعمل الآن بشكل صحيح
                 }
             } catch (err) {
                 setError('فشل تحميل البيانات');
@@ -44,7 +48,7 @@ const SalesInvoiceDetailsFormPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        // Add the invoice ID to the data being sent
+        // ✨ تأكد أن الـ API يتوقع حقل `sales_invoice`
         const dataToSubmit = { ...formData, sales_invoice: invoiceId };
         
         try {
@@ -53,8 +57,7 @@ const SalesInvoiceDetailsFormPage = () => {
             } else {
                 await createSalesInvoiceDetail(dataToSubmit);
             }
-            // Navigate back to the details list for the specific invoice
-            navigate(`/sales/${invoiceId}/details`);
+            navigate(`/sales/details/${invoiceId}`);
         } catch (err) {
             setError('فشل حفظ البند.');
         } finally {
@@ -77,7 +80,11 @@ const SalesInvoiceDetailsFormPage = () => {
                     ))}
                 </select>
                 <InputField label="الكمية" name="quantity" type="number" value={formData.quantity} onChange={handleChange} required />
-                <InputField label="سعر الوحدة" name="unit_price" type="number" step="0.01" value={formData.unit_price} onChange={handleChange} required />
+                {/* ✅ تم تصحيح name و value */}
+                <InputField label="سعر الوحدة" name="price" type="number" step="0.01" value={formData.price} onChange={handleChange} required />
+                <InputField label="الخصم" name="discount" type="number" step="0.01" value={formData.discount} onChange={handleChange} />
+                <InputField label="الضريبة" name="tax" type="number" step="0.01" value={formData.tax} onChange={handleChange} />
+                
                 <Button type="submit" disabled={loading}>{loading ? 'جاري الحفظ...' : 'حفظ'}</Button>
             </form>
         </div>

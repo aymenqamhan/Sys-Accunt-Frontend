@@ -1,11 +1,12 @@
+// src/pages/Sales/SalesInvoiceDetailsListPage.js (Corrected)
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-// ✨ تم تصحيح أسماء الدوال المستوردة
 import { getSale } from '../../api/sales';
 import { getSalesInvoiceDetails, deleteSalesInvoiceDetail } from '../../api/salesInvoiceDetails';
 
 const SalesInvoiceDetailsListPage = () => {
-    const { saleId } = useParams();
+    // ✅ تم التعديل إلى invoiceId للاتساق مع بقية التطبيق
+    const { invoiceId } = useParams(); 
     const [sale, setSale] = useState(null);
     const [details, setDetails] = useState([]);
     const [error, setError] = useState(null);
@@ -13,10 +14,9 @@ const SalesInvoiceDetailsListPage = () => {
     useEffect(() => {
         const fetchSaleDetails = async () => {
             try {
-                // ✨ تم استدعاء الدالة الصحيحة
-                const saleRes = await getSale(saleId);
+                const saleRes = await getSale(invoiceId);
                 setSale(saleRes.data);
-                const detailsRes = await getSalesInvoiceDetails(saleId);
+                const detailsRes = await getSalesInvoiceDetails(invoiceId);
                 setDetails(detailsRes.data);
             } catch (err) {
                 setError('Failed to fetch sale details.');
@@ -24,11 +24,11 @@ const SalesInvoiceDetailsListPage = () => {
             }
         };
         fetchSaleDetails();
-    }, [saleId]);
+    }, [invoiceId]);
 
     const handleDelete = async (detailId) => {
         try {
-            await deleteSalesInvoiceDetail(saleId, detailId);
+            await deleteSalesInvoiceDetail(detailId);
             setDetails(details.filter((d) => d.detail_id !== detailId));
         } catch (err) {
             setError('Failed to delete detail.');
@@ -41,15 +41,16 @@ const SalesInvoiceDetailsListPage = () => {
 
     return (
         <div>
-            <h2>Details for Sale #{sale.sale_id}</h2>
-            <Link to={`/sales/${saleId}/details/new`}>Add Detail</Link>
+            {/* ✅ تم التصحيح: استخدام sale.invoice_id */}
+            <h2>Details for Sale Invoice #{sale.invoice_id}</h2>
+            <Link to={`/sales/${invoiceId}/details/new`}>Add Detail</Link>
             <table>
                 <thead>
                     <tr>
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Unit Price</th>
-                        <th>Total Price</th>
+                        <th>Subtotal</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -58,10 +59,12 @@ const SalesInvoiceDetailsListPage = () => {
                         <tr key={detail.detail_id}>
                             <td>{detail.product_name || detail.product}</td>
                             <td>{detail.quantity}</td>
-                            <td>{detail.unit_price}</td>
-                            <td>{detail.total_price}</td>
+                            {/* ✅ تم التصحيح: استخدام detail.price */}
+                            <td>{detail.price}</td>
+                            {/* ✅ تم التصحيح: استخدام detail.subtotal */}
+                            <td>{detail.subtotal}</td>
                             <td>
-                                <Link to={`/sales/${saleId}/details/edit/${detail.detail_id}`}>Edit</Link>
+                                <Link to={`/sales/${invoiceId}/details/edit/${detail.detail_id}`}>Edit</Link>
                                 <button onClick={() => handleDelete(detail.detail_id)}>Delete</button>
                             </td>
                         </tr>
