@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getInventoryItems, deleteInventoryItem } from '../../api/inventory';
@@ -30,7 +31,7 @@ const InventoryListPage = () => {
     };
 
     const handleDelete = async (itemId) => {
-        if (window.confirm('Are you sure you want to delete this item?')) {
+        if (window.confirm('Are you sure you want to delete this movement record?')) {
             try {
                 await deleteInventoryItem(itemId);
                 setItems(items.filter(item => item.id !== itemId));
@@ -41,9 +42,24 @@ const InventoryListPage = () => {
     };
 
     const columns = [
-        { header: 'Product Name', key: 'product_name' }, // Assuming a 'product_name' field
+        { header: 'Product Name', key: 'product_name' },
+        {
+            header: 'Movement Type',
+            key: 'movement_type',
+            render: (row) => (
+                <span style={{ color: row.movement_type === 'IN' ? 'green' : 'red' }}>
+                    {row.movement_type === 'IN' ? 'Stock In' : 'Stock Out'}
+                </span>
+            )
+        },
         { header: 'Quantity', key: 'quantity' },
-        { header: 'Location', key: 'location' },
+        { header: 'Reason', key: 'reason' },
+        { header: 'Moved By', key: 'moved_by_name' },
+        {
+            header: 'Timestamp',
+            key: 'timestamp',
+            render: (row) => new Date(row.timestamp).toLocaleString()
+        },
         {
             header: 'Actions',
             key: 'actions',
@@ -62,8 +78,8 @@ const InventoryListPage = () => {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1>Inventory Management</h1>
-                <Button onClick={() => navigate('/inventory/new')}>+ Add New Item</Button>
+                <h1>Inventory Movements</h1>
+                <Button onClick={() => navigate('/inventory/new')}>+ Add New Movement</Button>
             </div>
             <Table columns={columns} data={items} />
         </div>

@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrencies, deleteCurrency } from '../../api/currencies';
@@ -33,7 +35,8 @@ const CurrencyListPage = () => {
         if (window.confirm('Are you sure you want to delete this currency?')) {
             try {
                 await deleteCurrency(currencyId);
-                setCurrencies(currencies.filter(currency => currency.id !== currencyId));
+                // ⚠️ تعديل: استخدام currency_id للمقارنة
+                setCurrencies(currencies.filter(currency => currency.currency_id !== currencyId));
             } catch (err) {
                 setError('Failed to delete currency.');
             }
@@ -43,14 +46,16 @@ const CurrencyListPage = () => {
     const columns = [
         { header: 'Currency Name', key: 'name' },
         { header: 'Code', key: 'code' },
-        { header: 'Symbol', key: 'symbol' },
+        // ⚠️ تعديل: استبدال Symbol بـ Exchange Rate
+        { header: 'Exchange Rate', key: 'exchange_rate' },
         {
             header: 'Actions',
             key: 'actions',
             render: (row) => (
                 <div>
-                    <Button onClick={() => handleEdit(row.id)} style={{ marginRight: '5px' }}>Edit</Button>
-                    <Button onClick={() => handleDelete(row.id)} variant="secondary">Delete</Button>
+                    {/* ⚠️ تعديل: استخدام row.currency_id */}
+                    <Button onClick={() => handleEdit(row.currency_id)} style={{ marginRight: '5px' }}>Edit</Button>
+                    <Button onClick={() => handleDelete(row.currency_id)} variant="secondary">Delete</Button>
                 </div>
             )
         }

@@ -49,6 +49,7 @@ const CustomerListPage = () => {
         // Use full_name from the main branch
         { header: 'الاسم الكامل', key: 'full_name' },
         { header: 'البريد الإلكتروني', key: 'email' },
+        { header: 'رقم الهاتف', key: 'phone' },
         { header: 'الهاتف', key: 'phone' },
         { header: 'العنوان', key: 'address' },
         {

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createCurrency, getSingleCurrency, updateCurrency } from '../../api/currencies';
@@ -9,7 +10,7 @@ const CurrencyFormPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         code: '',
-        symbol: ''
+        exchange_rate: ''
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -55,9 +56,18 @@ const CurrencyFormPage = () => {
         <div>
             <h1>{isEditMode ? 'Edit Currency' : 'Create New Currency'}</h1>
             <form onSubmit={handleSubmit}>
-                <InputField label="Name" name="name" value={formData.name} onChange={handleChange} required />
+                <InputField label="Currency Name" name="name" value={formData.name} onChange={handleChange} required />
                 <InputField label="Code (e.g., USD)" name="code" value={formData.code} onChange={handleChange} required />
-                <InputField label="Symbol (e.g., $)" name="symbol" value={formData.symbol} onChange={handleChange} required />
+                {/* ⚠️ تعديل: استبدال حقل symbol بحقل exchange_rate */}
+                <InputField
+                    label="Exchange Rate"
+                    name="exchange_rate"
+                    type="number" // من الأفضل أن يكون رقمًا
+                    step="any" // للسماح بالكسور العشرية
+                    value={formData.exchange_rate}
+                    onChange={handleChange}
+                    required
+                />
                 {error && <p className="error-message">{error}</p>}
                 <Button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save Currency'}</Button>
             </form>
