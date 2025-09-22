@@ -55,9 +55,9 @@ const App = () => {
     <Router>
       <Routes>
         {/* --- المسارات العامة --- */}
-        {/* <Route path="/login" element={<LoginPage />} /> */}
-        {/* <Route path="/register" element={<RegisterPage />} /> */}
-        {/* <Route path="/verify-email" element={<VerifyEmailPage />} /> */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
 
         {/* --- المسارات الداخلية --- */}
         <Route element={<AppLayout />}>

@@ -1,76 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-// --- ✨ التصحيح هنا ---
-import { getSalesInvoice } from '../../api/sales'; 
-import { deleteSalesInvoiceDetail } from '../../api/salesInvoiceDetails'; // تم استيرادها من الملف الصحيح
-// --- نهاية التصحيح ---
-import Table from '../../components/Common/Table/Table';
-import Button from '../../components/Common/Button/Button';
-import Loader from '../../components/Common/Loader/Loader';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+// ✨ تم تصحيح أسماء الدوال المستوردة
+import { getSale } from '../../api/sales';
+import { getSalesInvoiceDetails, deleteSalesInvoiceDetail } from '../../api/salesInvoiceDetails';
 
 const SalesInvoiceDetailsListPage = () => {
-    const [invoiceDetails, setInvoiceDetails] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const { invoiceId } = useParams();
-    const navigate = useNavigate();
+    const { saleId } = useParams();
+    const [sale, setSale] = useState(null);
+    const [details, setDetails] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchDetails = async () => {
+        const fetchSaleDetails = async () => {
             try {
-                const response = await getSalesInvoice(invoiceId);
-                setInvoiceDetails(response.data);
+                // ✨ تم استدعاء الدالة الصحيحة
+                const saleRes = await getSale(saleId);
+                setSale(saleRes.data);
+                const detailsRes = await getSalesInvoiceDetails(saleId);
+                setDetails(detailsRes.data);
             } catch (err) {
-                setError('فشل في جلب تفاصيل الفاتورة.');
-            } finally {
-                setLoading(false);
+                setError('Failed to fetch sale details.');
+                console.error(err);
             }
         };
-        fetchDetails();
-    }, [invoiceId]);
+        fetchSaleDetails();
+    }, [saleId]);
 
     const handleDelete = async (detailId) => {
-        if (window.confirm('هل أنت متأكد من حذف هذا البند؟')) {
-            try {
-                await deleteSalesInvoiceDetail(detailId);
-                // Refresh the details after deletion
-                const response = await getSalesInvoice(invoiceId);
-                setInvoiceDetails(response.data);
-            } catch (err) {
-                setError('فشل حذف البند.');
-            }
+        try {
+            await deleteSalesInvoiceDetail(saleId, detailId);
+            setDetails(details.filter((d) => d.detail_id !== detailId));
+        } catch (err) {
+            setError('Failed to delete detail.');
+            console.error(err);
         }
     };
-    
-    const columns = [
-        { header: 'المنتج', key: 'product_name' },
-        { header: 'الكمية', key: 'quantity' },
-        { header: 'سعر الوحدة', key: 'unit_price' },
-        { header: 'الإجمالي الفرعي', key: 'subtotal' },
-        {
-            header: 'الإجراءات',
-            key: 'actions',
-            render: (item) => (
-                <div>
-                    <Button onClick={() => navigate(`/sales/${invoiceId}/details/edit/${item.detail_id}`)}>تعديل</Button>
-                    <Button onClick={() => handleDelete(item.detail_id)} variant="secondary">حذف</Button>
-                </div>
-            )
-        }
-    ];
 
-    if (loading) return <Loader />;
-    if (error) return <p className="error-message">{error}</p>;
+    if (error) return <p style={{ color: 'red' }}>{error}</p>;
+    if (!sale) return <p>Loading...</p>;
 
     return (
         <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1>تفاصيل الفاتورة رقم: {invoiceDetails?.invoice_id}</h1>
-                <Button onClick={() => navigate(`/sales/${invoiceId}/details/new`)}>+ إضافة بند جديد</Button>
-            </div>
-            <p><strong>العميل:</strong> {invoiceDetails?.customer_name}</p>
-            <p><strong>الإجمالي:</strong> {invoiceDetails?.total_amount}</p>
-            <Table columns={columns} data={invoiceDetails?.items || []} />
+            <h2>Details for Sale #{sale.sale_id}</h2>
+            <Link to={`/sales/${saleId}/details/new`}>Add Detail</Link>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {details.map((detail) => (
+                        <tr key={detail.detail_id}>
+                            <td>{detail.product_name || detail.product}</td>
+                            <td>{detail.quantity}</td>
+                            <td>{detail.unit_price}</td>
+                            <td>{detail.total_price}</td>
+                            <td>
+                                <Link to={`/sales/${saleId}/details/edit/${detail.detail_id}`}>Edit</Link>
+                                <button onClick={() => handleDelete(detail.detail_id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

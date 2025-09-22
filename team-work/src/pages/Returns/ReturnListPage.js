@@ -1,76 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { getReturns, deleteReturn } from '../../api/returns';
-import Table from '../../components/Common/Table/Table';
-import Button from '../../components/Common/Button/Button';
-import Loader from '../../components/Common/Loader/Loader';
+import { Link } from 'react-router-dom';
 
 const ReturnListPage = () => {
     const [returns, setReturns] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchReturns = async () => {
             try {
                 const response = await getReturns();
                 setReturns(response.data);
-            } catch (err) {
+            } catch (error) {
                 setError('Failed to fetch returns.');
-            } finally {
-                setLoading(false);
+                console.error(error);
             }
         };
         fetchReturns();
     }, []);
 
-    const handleEdit = (returnId) => {
-        navigate(`/returns/edit/${returnId}`);
-    };
-
-    const handleDelete = async (returnId) => {
-        if (window.confirm('Are you sure you want to delete this return?')) {
-            try {
-                await deleteReturn(returnId);
-                // FIX: Filter using the correct ID field 'return_id'
-                setReturns(returns.filter(ret => ret.return_id !== returnId));
-            } catch (err) {
-                setError('Failed to delete return.');
-            }
+    const handleDelete = async (id) => {
+        try {
+            await deleteReturn(id);
+            setReturns(returns.filter((ret) => ret.return_id !== id));
+        } catch (error) {
+            setError('Failed to delete return.');
+            console.error(error);
         }
     };
-
-    // FIX: Updated columns to match your API data
-    const columns = [
-        { header: 'Customer', key: 'customer_name' },
-        { header: 'Product', key: 'product_name' },
-        { header: 'Quantity', key: 'quantity' },
-        { header: 'Amount', key: 'amount' },
-        { header: 'Date', key: 'return_date' },
-        {
-            header: 'Actions',
-            key: 'actions',
-            render: (row) => (
-                <div>
-                    {/* FIX: Use the correct ID field 'return_id' */}
-                    <Button onClick={() => handleEdit(row.return_id)} style={{ marginRight: '5px' }}>Edit</Button>
-                    <Button onClick={() => handleDelete(row.return_id)} variant="secondary">Delete</Button>
-                </div>
-            )
-        }
-    ];
-
-    if (loading) return <Loader />;
-    if (error) return <p className="error-message">{error}</p>;
 
     return (
         <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1>Returns Management</h1>
-                <Button onClick={() => navigate('/returns/new')}>+ Add New Return</Button>
-            </div>
-            <Table columns={columns} data={returns} />
+            <h2>Returns</h2>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <Link to="/returns/new">Add Return</Link>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Return ID</th>
+                        <th>Sale ID</th>
+                        <th>Return Date</th>
+                        <th>Reason</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {returns.map((ret) => (
+                        <tr key={ret.return_id}>
+                            <td>{ret.return_id}</td>
+                            <td>{ret.sale}</td>
+                            <td>{new Date(ret.return_date).toLocaleDateString()}</td>
+                            <td>{ret.reason}</td>
+                            <td>
+                                <Link to={`/returns/edit/${ret.return_id}`}>Edit</Link>
+                                <button onClick={() => handleDelete(ret.return_id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

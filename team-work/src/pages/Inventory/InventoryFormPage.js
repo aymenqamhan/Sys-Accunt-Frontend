@@ -1,31 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createInventoryItem, getSingleInventoryItem, updateInventoryItem } from '../../api/inventory';
-import InputField from '../../components/Common/InputField/InputField';
-import Button from '../../components/Common/Button/Button';
-import Loader from '../../components/Common/Loader/Loader';
+import { getProducts } from '../../api/products';
+// ✨ تم استبدال getSingleInventoryItem بـ getInventoryItem
+import { getInventoryItem, updateInventoryItem, createInventoryItem } from '../../api/inventory';
 
 const InventoryFormPage = () => {
     const [formData, setFormData] = useState({
-        product: '', // Assuming you'll have a dropdown for products
-        quantity: 0,
+        product: '',
+        quantity: '',
         location: ''
     });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [products, setProducts] = useState([]);
     const navigate = useNavigate();
-    const { itemId } = useParams();
-    const isEditMode = Boolean(itemId);
+    const { id } = useParams();
 
     useEffect(() => {
-        if (isEditMode) {
-            setLoading(true);
-            getSingleInventoryItem(itemId)
-                .then(response => setFormData(response.data))
-                .catch(err => setError('Failed to fetch item data.'))
-                .finally(() => setLoading(false));
+        const fetchProducts = async () => {
+            try {
+                const response = await getProducts();
+                setProducts(response.data);
+            } catch (error) {
+                console.error('Failed to fetch products', error);
+            }
+        };
+
+        if (id) {
+            const fetchInventoryItem = async () => {
+                try {
+                    // ✨ تم استدعاء الدالة الصحيحة
+                    const response = await getInventoryItem(id);
+                    setFormData(response.data);
+                } catch (error) {
+                    console.error('Failed to fetch inventory item', error);
+                }
+            };
+            fetchInventoryItem();
         }
-    }, [itemId, isEditMode]);
+        fetchProducts();
+    }, [id]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,34 +45,31 @@ const InventoryFormPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        setError('');
         try {
-            if (isEditMode) {
-                await updateInventoryItem(itemId, formData);
+            if (id) {
+                await updateInventoryItem(id, formData);
             } else {
                 await createInventoryItem(formData);
             }
             navigate('/inventory');
-        } catch (err) {
-            setError('Failed to save inventory item.');
-        } finally {
-            setLoading(false);
+        } catch (error) {
+            console.error('Failed to save inventory item', error);
         }
     };
 
-    if (loading && isEditMode) return <Loader />;
-
     return (
         <div>
-            <h1>{isEditMode ? 'Edit Inventory Item' : 'Create New Inventory Item'}</h1>
+            <h2>{id ? 'Edit Inventory Item' : 'Create Inventory Item'}</h2>
             <form onSubmit={handleSubmit}>
-                {/* Note: You will likely replace the 'product' InputField with a dropdown select menu */}
-                <InputField label="Product ID" name="product" value={formData.product} onChange={handleChange} required />
-                <InputField label="Quantity" name="quantity" type="number" value={formData.quantity} onChange={handleChange} required />
-                <InputField label="Location" name="location" value={formData.location} onChange={handleChange} />
-                {error && <p className="error-message">{error}</p>}
-                <Button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save Item'}</Button>
+                <select name="product" value={formData.product} onChange={handleChange}>
+                    <option value="">Select Product</option>
+                    {products.map(product => (
+                        <option key={product.product_id} value={product.product_id}>{product.product_name}</option>
+                    ))}
+                </select>
+                <input name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" />
+                <input name="location" value={formData.location} onChange={handleChange} placeholder="Location" />
+                <button type="submit">Save</button>
             </form>
         </div>
     );

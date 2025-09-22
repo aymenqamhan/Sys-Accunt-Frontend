@@ -1,35 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createReturn, getReturnDetails, updateReturn } from '../../api/returns';
-import InputField from '../../components/Common/InputField/InputField';
-import Button from '../../components/Common/Button/Button';
-import Loader from '../../components/Common/Loader/Loader';
+import { getSales } from '../../api/sales';
+// ✨ تم استبدال getReturnDetails بـ getReturn
+import { getReturn, updateReturn, createReturn } from '../../api/returns';
 
 const ReturnFormPage = () => {
-    // FIX: Updated form state to match API fields
     const [formData, setFormData] = useState({
-        product: '',
-        customer: '',
-        quantity: 1,
-        amount: 0,
-        reason: '',
-        return_date: new Date().toISOString().slice(0, 10),
+        sale: '',
+        return_date: '',
+        reason: ''
     });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [sales, setSales] = useState([]);
     const navigate = useNavigate();
-    const { returnId } = useParams();
-    const isEditMode = Boolean(returnId);
+    const { id } = useParams();
 
     useEffect(() => {
-        if (isEditMode) {
-            setLoading(true);
-            getReturnDetails(returnId)
-                .then(response => setFormData(response.data))
-                .catch(err => setError('Failed to fetch return data.'))
-                .finally(() => setLoading(false));
+        const fetchSales = async () => {
+            try {
+                const response = await getSales();
+                setSales(response.data);
+            } catch (error) {
+                console.error('Failed to fetch sales', error);
+            }
+        };
+
+        if (id) {
+            const fetchReturnDetails = async () => {
+                try {
+                    // ✨ تم استدعاء الدالة الصحيحة
+                    const response = await getReturn(id);
+                    setFormData(response.data);
+                } catch (error) {
+                    console.error('Failed to fetch return details', error);
+                }
+            };
+            fetchReturnDetails();
         }
-    }, [returnId, isEditMode]);
+        fetchSales();
+    }, [id]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,37 +45,29 @@ const ReturnFormPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        setError('');
         try {
-            if (isEditMode) {
-                await updateReturn(returnId, formData);
+            if (id) {
+                await updateReturn(id, formData);
             } else {
                 await createReturn(formData);
             }
             navigate('/returns');
-        } catch (err) {
-            setError('Failed to save return.');
-        } finally {
-            setLoading(false);
+        } catch (error) {
+            console.error('Failed to save return', error);
         }
     };
 
-    if (loading && isEditMode) return <Loader />;
-
     return (
         <div>
-            <h1>{isEditMode ? 'Edit Return' : 'Create New Return'}</h1>
+            <h2>{id ? 'Edit Return' : 'Create Return'}</h2>
             <form onSubmit={handleSubmit}>
-                {/* FIX: Updated form fields */}
-                <InputField label="Product ID" name="product" value={formData.product} onChange={handleChange} required />
-                <InputField label="Customer ID" name="customer" value={formData.customer} onChange={handleChange} required />
-                <InputField label="Quantity" name="quantity" type="number" value={formData.quantity} onChange={handleChange} required />
-                <InputField label="Amount" name="amount" type="number" step="0.01" value={formData.amount} onChange={handleChange} required />
-                <InputField label="Reason" name="reason" value={formData.reason} onChange={handleChange} required />
-                <InputField label="Return Date" name="return_date" type="date" value={formData.return_date} onChange={handleChange} required />
-                {error && <p className="error-message">{error}</p>}
-                <Button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save Return'}</Button>
+                <select name="sale" value={formData.sale} onChange={handleChange}>
+                    <option value="">Select Sale</option>
+                    {sales.map(sale => <option key={sale.sale_id} value={sale.sale_id}>Sale {sale.sale_id}</option>)}
+                </select>
+                <input type="date" name="return_date" value={formData.return_date} onChange={handleChange} />
+                <textarea name="reason" value={formData.reason} onChange={handleChange} placeholder="Reason"></textarea>
+                <button type="submit">Save</button>
             </form>
         </div>
     );
