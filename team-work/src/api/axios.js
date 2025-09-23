@@ -38,11 +38,33 @@
 // export default API;
 
 
-import axios from 'axios';
+// import axios from 'axios';
 import { refreshToken as refreshTokenAPI } from './auth';
 
+// const apiClient = axios.create({
+//     baseURL: 'http://localhost:8000/api',
+// });
+
+// // --- 1. معترض الطلبات (Request Interceptor) ---
+// // هذا الجزء يضيف التوكن لكل طلب قبل إرساله
+// apiClient.interceptors.request.use(
+//     (config) => {
+//         const token = localStorage.getItem('token');
+//         if (token) {
+//             config.headers.Authorization = `Bearer ${token}`;
+//         }
+//         return config;
+//     },
+//     (error) => Promise.reject(error)
+// );
+
+//----------------------------------------------------------
+// الربط مع السرفر السحابي الجديد 
+//----------------------------------------------------------
+import axios from 'axios';
+
 const apiClient = axios.create({
-    // 👇 --- تم تصحيح الرابط هنا --- 👇
+
     baseURL: 'https://as-praivite.vercel.app/api',
 });
 
@@ -57,6 +79,28 @@ apiClient.interceptors.request.use(
     },
     (error) => Promise.reject(error)
 );
+
+
+// ... باقي الكود المسؤول عن إضافة التوكن تلقائياً
+apiClient.interceptors.request.use(req => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        req.headers.Authorization = `Bearer ${token}`;
+    }
+    return req;
+});
+
+export default apiClient;   
+
+
+
+
+///----------------------------------------------------------
+
+
+
+
+
 
 // --- 2. معترض الاستجابة (Response Interceptor) ---
 apiClient.interceptors.response.use(
@@ -87,4 +131,10 @@ apiClient.interceptors.response.use(
     }
 );
 
+
 export default apiClient;
+
+// قم بتغيير اسم المتغير هنا إذا كنت تستخدم apiClient في بقية مشروعك
+// إذا كنت تستخدم API، اتركها كما هي: export default API;
+// export default apiClient;
+
