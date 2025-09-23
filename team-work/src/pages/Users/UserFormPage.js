@@ -131,7 +131,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-// 👇 1. تم تصحيح الخطأ الإملائي هنا
 import { createUser, getUser, updateUser, updateUserPermissions, getUserPermissions } from '../../api/users';
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
@@ -220,12 +219,10 @@ const UserFormPage = () => {
 
             if (isEditMode) {
                 await updateUser(userId, userData);
-                // 👇 2. تم تصحيح الخطأ الإملائي هنا
                 await updateUserPermissions(userId, permissionsData);
             } else {
                 const response = await createUser(userData);
                 const newUserId = response.data.user_id;
-                // 👇 3. تم تصحيح الخطأ الإملائي هنا
                 await updateUserPermissions(newUserId, permissionsData);
             }
             navigate('/users');
@@ -262,7 +259,7 @@ const UserFormPage = () => {
                     </label>
                 </div>
 
-                {/* 👇 4. تم إضافة مربع الاختيار الناقص هنا */}
+
                 <div>
                     <label>
                         <input type="checkbox" name="is_superuser" checked={formData.is_superuser} onChange={handleChange} />

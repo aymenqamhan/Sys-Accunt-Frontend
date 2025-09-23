@@ -54,7 +54,6 @@ const UserListPage = () => {
             key: 'actions',
             render: (user) => (
                 <div style={{ display: 'flex', gap: '5px' }}>
-                    {/* انتبه: نستخدم user.user_id كما هو موضح في الـ API */}
                     <Button onClick={() => handleEdit(user.user_id)}>تعديل</Button>
                     <Button onClick={() => handleDelete(user.user_id)} variant="secondary">حذف</Button>
                 </div>
