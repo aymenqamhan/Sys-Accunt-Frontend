@@ -5,7 +5,7 @@ import { createInventoryItem, getSingleInventoryItem, updateInventoryItem } from
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
 import Loader from '../../components/Common/Loader/Loader';
-// ❌ تأكد من حذف سطر استيراد SelectField من هنا
+
 
 const InventoryFormPage = () => {
     const [formData, setFormData] = useState({

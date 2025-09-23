@@ -64,8 +64,22 @@ import { refreshToken as refreshTokenAPI } from './auth';
 import axios from 'axios';
 
 const apiClient = axios.create({
-    baseURL: 'https://as-praivite.vercel.app' // <--- هذا هو التعديل المطلوب
+
+    baseURL: 'https://as-praivite.vercel.app/api',
 });
+
+// --- 1. معترض الطلبات (Request Interceptor) ---
+apiClient.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
 
 // ... باقي الكود المسؤول عن إضافة التوكن تلقائياً
 apiClient.interceptors.request.use(req => {
@@ -87,49 +101,40 @@ export default apiClient;
 
 
 
+
 // --- 2. معترض الاستجابة (Response Interceptor) ---
-// هذا الجزء يتعامل مع الأخطاء، خاصة خطأ انتهاء صلاحية التوكن
 apiClient.interceptors.response.use(
-    (response) => response, // لا تفعل شيئًا إذا كان الطلب ناجحًا
+    (response) => response,
     async (error) => {
         const originalRequest = error.config;
 
-        // تحقق إذا كان الخطأ هو 401 (غير مصرح به) وأن الطلب لم تتم إعادة محاولته من قبل
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-
             try {
                 const refreshToken = localStorage.getItem('refreshToken');
                 if (!refreshToken) {
                     window.location.href = '/login';
                     return Promise.reject(error);
                 }
-
-                // طلب access token جديد
                 const response = await refreshTokenAPI({ refresh: refreshToken });
                 const newAccessToken = response.data.access;
-
-                // حفظ التوكن الجديد
                 localStorage.setItem('token', newAccessToken);
-
-                // تحديث هيدر الطلب الأصلي بالتوكن الجديد
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-
-                // إعادة محاولة الطلب الأصلي الذي فشل
                 return apiClient(originalRequest);
-
             } catch (refreshError) {
-                // إذا فشل التجديد أيضًا، قم بتسجيل خروج المستخدم
-                localStorage.clear(); // مسح كل شيء
+                localStorage.clear();
                 window.location.href = '/login';
                 return Promise.reject(refreshError);
             }
         }
-
         return Promise.reject(error);
     }
 );
 
+
+export default apiClient;
+
 // قم بتغيير اسم المتغير هنا إذا كنت تستخدم apiClient في بقية مشروعك
 // إذا كنت تستخدم API، اتركها كما هي: export default API;
 // export default apiClient;
+
