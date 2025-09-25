@@ -1,4 +1,4 @@
-.header {
+/* .header {
   height: 70px;
   background-color: var(--neutral-500);
   padding: 0 var(--spacing-lg);
@@ -42,4 +42,79 @@
   height: 48px;
   border-radius: var(--border-radius-circle); 
   object-fit: cover;
+} */
+
+
+
+/* src/components/Layout/Header/Header.css */
+
+/* src/components/Layout/Header/Header.css */
+
+/* --- الهيكل الرئيسي للهيدر --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--spacing-lg);
+  height: 80px;
+  background-color: var(--white);
+  border-bottom: 1px solid var(--neutral-100);
+  width: 100%;
+}
+
+/* --- عنوان الصفحة --- */
+.page-title h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+/* --- قسم المستخدم --- */
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--border-radius-circle);
+  object-fit: cover;
+  border: 2px solid var(--primary-400);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* لمحاذاة النص لليمين */
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--neutral-900);
+}
+
+.user-role {
+  font-size: 0.85rem;
+  color: var(--disabled-text);
+}
+
+/* --- تنسيق زر تسجيل الخروج --- */
+/* هذا الكود يفترض أن مكون الزر يقبل className */
+.user-profile .btn {
+  background-color: var(--neutral-100);
+  color: var(--neutral-900);
+  border: none;
+  font-weight: 500;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-main);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.user-profile .btn:hover {
+  background-color: #e2e8f0; /* لون أغمق قليلاً عند المرور */
 }

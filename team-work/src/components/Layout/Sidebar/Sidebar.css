@@ -1,23 +1,31 @@
+/* src/components/Layout/Sidebar/Sidebar.css */
+
+/* src/components/Layout/Sidebar/Sidebar.css (Dark Theme) */
+
 .sidebar {
-  width: 250px;
-  background-color: var(--neutral-500);
+  width: 260px;
+  /* استخدام لون داكن من هوية مشروعك */
+  background-color: #34528f; /* يمكنك استخدام var(--neutral-900) إذا كان أغمق */
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-lg); 
-  border-left: 1px solid var(--neutral-100);
+  padding: var(--spacing-md);
+  position: sticky;
+  top: 0;
+  transition: width 0.3s ease;
 }
 
 .sidebar-header {
-  margin-bottom: var(--spacing-lg); 
   padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--neutral-500);
+  margin-bottom: var(--spacing-md);
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo {
-  max-width: 150px;
-  margin: 0 auto;
+  max-width: 130px;
   display: block;
+  margin: 0 auto;
 }
 
 .sidebar-nav ul {
@@ -30,24 +38,38 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--border-radius-main); 
+  padding: 12px var(--spacing-md);
+  border-radius: var(--border-radius-main);
   text-decoration: none;
-  color: var(--neutral-900); 
+  color: #00eeff; /* لون رمادي فاتح للنص العادي */
   font-weight: 500;
   transition: background-color 0.2s, color 0.2s;
+  margin-bottom: var(--spacing-sm);
 }
 
 .nav-link svg {
-  font-size: 24px;
+  font-size: 22px;
+  transition: color 0.2s;
 }
 
-/* Active NavLink style */
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.05); /* خلفية شفافة خفيفة عند المرور */
+  color: var(--white); /* لون أبيض للنص عند المرور */
+}
+
+/* --- تصميم الرابط النشط --- */
 .nav-link.active {
-  background-color: var(--primary-400);
-  color: var(--white);
+  background-color: var(--primary-500); /* اللون الأزرق الأساسي للخلفية */
+  color: var(--white); /* لون أبيض للنص والأيقونة */
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(7, 56, 214, 0.3); /* ظل أزرق ناعم */
 }
 
-.nav-link:hover{
-  background-color: var(--neutral-100);
+/* إذا كنت تستخدم RTL (اتجاه اليمين لليسار)، استخدم هذا الكود بدلاً من الكود أعلاه للمؤشر */
+/*
+[dir="rtl"] .nav-link.active::before {
+    left: auto;
+    right: 0; 
+    border-radius: 4px 0 0 4px;
 }
+*/

@@ -4,7 +4,9 @@ import { changePassword } from '../../api/auth';
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
 import Loader from '../../components/Common/Loader/Loader';
+import IbexProLogo from '../.../../../assets/ibex-pro-logo-light.svg';
 
+import './AuthPages.css';
 const ChangePasswordPage = () => {
     const [formData, setFormData] = useState({
         old_password: '',
@@ -59,37 +61,48 @@ const ChangePasswordPage = () => {
 
     return (
         <div className="auth-container">
-            {loading && <Loader />}
-            <h2 className="auth-title">تغيير كلمة المرور</h2>
-            <form onSubmit={handleSubmit} className="auth-form">
-                <InputField
-                    label="كلمة المرور القديمة"
-                    name="old_password"
-                    type="password"
-                    value={formData.old_password}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="كلمة المرور الجديدة"
-                    name="new_password"
-                    type="password"
-                    value={formData.new_password}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="تأكيد كلمة المرور الجديدة"
-                    name="new_password_confirm"
-                    type="password"
-                    value={formData.new_password_confirm}
-                    onChange={handleChange}
-                    required
-                />
-                <Button type="submit" disabled={loading}>تحديث كلمة المرور</Button>
-            </form>
-            {error && <p className="auth-error-message">{error}</p>}
-            {success && <p className="auth-success-message">{success}</p>}
+            <div className="auth-wrapper">
+
+                {/* ---  العمود الأول: الشعار والعلامة التجارية --- */}
+                <div className="auth-branding">
+                    <img src={IbexProLogo} alt="Ibex Pro Logo" />
+                    <h2>مرحباً بك في IBEX PRO</h2>
+                    <p>نظامك المحاسبي المتكامل لإدارة أعمالك بكفاءة.</p>
+                </div>
+                <div className="auth-card">
+                    {loading && <Loader />}
+                    <h2 className="auth-title">تغيير كلمة المرور</h2>
+                    <form onSubmit={handleSubmit} className="auth-form">
+                        <InputField
+                            label="كلمة المرور القديمة"
+                            name="old_password"
+                            type="password"
+                            value={formData.old_password}
+                            onChange={handleChange}
+                            required
+                        />
+                        <InputField
+                            label="كلمة المرور الجديدة"
+                            name="new_password"
+                            type="password"
+                            value={formData.new_password}
+                            onChange={handleChange}
+                            required
+                        />
+                        <InputField
+                            label="تأكيد كلمة المرور الجديدة"
+                            name="new_password_confirm"
+                            type="password"
+                            value={formData.new_password_confirm}
+                            onChange={handleChange}
+                            required
+                        />
+                        <Button type="submit" disabled={loading}>تحديث كلمة المرور</Button>
+                    </form>
+                    {error && <p className="auth-error-message">{error}</p>}
+                    {success && <p className="auth-success-message">{success}</p>}
+                </div>
+            </div>
         </div>
     );
 };

@@ -14,7 +14,6 @@ const navLinks = [
   { to: '/purchases', text: 'إدارة المشتريات', icon: <LuReceipt /> },
   { to: '/inventory', text: 'إدارة المخزون', icon: <LuBoxes /> },
   { to: '/users', text: 'إدارة المستخدمين', icon: <LuUsers /> },
-  { to: '/settings', text: 'الإعدادات', icon: <LuSettings /> },
   { to: '/change-password', text: 'تغيير كلمة المرور', icon: <LuSettings /> },
   { to: '/profile', text: 'ملفي الشخصي', icon: <LuSettings /> },
 ];
