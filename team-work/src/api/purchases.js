@@ -1,4 +1,4 @@
-import API from './axios';
+
 
 // export const getPurchaseInvoices = () => API.get('/purchase-invoices/');
 // export const createPurchaseInvoice = (formData) => API.post('/purchase-invoices/', formData);
@@ -7,7 +7,7 @@ import API from './axios';
 // export const deletePurchaseInvoice = (id) => API.delete(`/purchase-invoices/${id}/`);
 
 
-
+import API from './axios';
 export const getPurchaseInvoices = () => API.get('/purchase-invoices/');
 export const createPurchaseInvoice = (formData) => API.post('/purchase-invoices/', formData);
 export const getPurchaseInvoice = (id) => API.get(`/purchase-invoices/${id}/`);

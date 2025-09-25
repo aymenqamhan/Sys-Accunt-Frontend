@@ -29,6 +29,13 @@ import InventoryListPage from './pages/Inventory/InventoryListPage';
 import InventoryFormPage from './pages/Inventory/InventoryFormPage';
 import CustomerListPage from './pages/Customers/CustomerListPage';
 import CustomerFormPage from './pages/Customers/CustomerFormPage';
+
+
+import ProductListPage from './pages/Products/ProductListPage';
+import ProductFormPage from './pages/Products/ProductFormPage';
+
+// You might not need separate routes for details, they could be part of the main invoice page
+
 import SupplierListPage from './pages/Suppliers/SupplierListPage';
 import SupplierFormPage from './pages/Suppliers/SupplierFormPage';
 import SalesInvoiceListPage from './pages/Sales/SalesInvoiceListPage';
@@ -36,11 +43,28 @@ import SalesInvoiceFormPage from './pages/Sales/SalesInvoiceFormPage';
 import PurchaseInvoiceListPage from './pages/Purchases/PurchaseInvoiceListPage';
 import PurchaseInvoiceFormPage from './pages/Purchases/PurchaseInvoiceFormPage';
 
-// --- ✨ استيراد صفحات تفاصيل الفواتير الجديدة ---
 import SalesInvoiceDetailsListPage from './pages/Sales/SalesInvoiceDetailsListPage';
 import SalesInvoiceDetailsFormPage from './pages/Sales/SalesInvoiceDetailsFormPage';
 import PurchaseInvoiceDetailsListPage from './pages/Purchases/PurchaseInvoiceDetailsListPage';
+
 import PurchaseInvoiceDetailsFormPage from './pages/Purchases/PurchaseInvoiceDetailsFormPage';
+import PurchaseInvoiceDetailsListPage from './pages/Purchases/PurchaseInvoiceDetailsListPage';
+
+import PurchaseInvoiceFormPage from './pages/Purchases/PurchaseInvoiceFormPage';
+import PurchaseInvoiceListPage from './pages/Purchases/PurchaseInvoiceListPage';
+
+
+import AccountListPage from './pages/Accounts/AccountListPage';
+import AccountFormPage from './pages/Accounts/AccountFormPage';
+
+import SupplierListPage from './pages/Suppliers/SupplierListPage';
+import SupplierFormPage from './pages/Suppliers/SupplierFormPage';
+
+import SalesInvoiceListPage from './pages/Sales/SalesInvoiceListPage';
+import SalesInvoiceFormPage from './pages/Sales/SalesInvoiceFormPage';
+import SalesInvoiceDetailsListPage from './pages/Sales/SalesInvoiceDetailsListPage';
+import SalesInvoiceDetailsFormPage from './pages/Sales/SalesInvoiceDetailsFormPage';
+
 
 const AppLayout = () => {
   return (
@@ -93,6 +117,46 @@ const App = () => {
           <Route path="/inventory/new" element={<InventoryFormPage />} />
           <Route path="/inventory/edit/:itemId" element={<InventoryFormPage />} />
 
+
+
+
+          <Route path="/purchases/:invoiceId/details" element={<PurchaseInvoiceDetailsListPage />} />
+          <Route path="/purchases/:invoiceId/details/new" element={<PurchaseInvoiceDetailsFormPage />} />
+          <Route path="/purchases/:invoiceId/details/edit/:detailId" element={<PurchaseInvoiceDetailsFormPage />} />
+          <Route path="/purchases" element={<PurchaseInvoiceListPage />} />
+          <Route path="/purchases/new" element={<PurchaseInvoiceFormPage />} />
+          <Route path="/purchases/edit/:invoiceId" element={<PurchaseInvoiceFormPage />} />
+
+
+          <Route path="/customers" element={<CustomerListPage />} />
+          <Route path="/customers/new" element={<CustomerFormPage />} />
+          <Route path="/customers/edit/:customerId" element={<CustomerFormPage />} />
+
+
+          <Route path="/products" element={<ProductListPage />} />
+          <Route path="/products/new" element={<ProductFormPage />} />
+          <Route path="/products/edit/:productId" element={<ProductFormPage />} />
+
+
+          <Route path="/accounts" element={<AccountListPage />} />
+          <Route path="/accounts/new" element={<AccountFormPage />} />
+          <Route path="/accounts/edit/:accountId" element={<AccountFormPage />} />
+
+
+          <Route path="/suppliers" element={<SupplierListPage />} />
+          <Route path="/suppliers/new" element={<SupplierFormPage />} />
+          <Route path="/suppliers/edit/:supplierId" element={<SupplierFormPage />} />
+
+
+
+
+
+
+          <Route path="/sales" element={<SalesInvoiceListPage />} />
+          <Route path="/sales/new" element={<SalesInvoiceFormPage />} />
+//           <Route path="/sales/edit/:invoiceId" element={<SalesInvoiceFormPage />} /> */}
+
+
           <Route path="/customers" element={<CustomerListPage />} />
           <Route path="/customers/new" element={<CustomerFormPage />} />
           <Route path="/customers/edit/:customerId" element={<CustomerFormPage />} />
@@ -105,17 +169,33 @@ const App = () => {
           <Route path="/sales" element={<SalesInvoiceListPage />} />
           <Route path="/sales/new" element={<SalesInvoiceFormPage />} />
           <Route path="/sales/edit/:invoiceId" element={<SalesInvoiceFormPage />} />
-          <Route path="/sales/:invoiceId/details" element={<SalesInvoiceDetailsListPage />} />
+
+            <Route path="/sales/:invoiceId/details" element={<SalesInvoiceDetailsListPage />} />
           <Route path="/sales/:invoiceId/details/new" element={<SalesInvoiceDetailsFormPage />} />
           <Route path="/sales/:invoiceId/details/edit/:detailId" element={<SalesInvoiceDetailsFormPage />} />
 
-          {/* --- ✨ مسارات المشتريات وتفاصيلها المحدثة --- */}
+
+
+
+
+
+
+
+
+
+
+
+          {/* أضف هنا بقية صفحاتك الداخلية */}
+          {/* <Route path="/verify-email" element={<VerifyEmailPage />} /> */}
+
+
           <Route path="/purchases" element={<PurchaseInvoiceListPage />} />
           <Route path="/purchases/new" element={<PurchaseInvoiceFormPage />} />
           <Route path="/purchases/edit/:invoiceId" element={<PurchaseInvoiceFormPage />} />
           <Route path="/purchases/:invoiceId/details" element={<PurchaseInvoiceDetailsListPage />} />
           <Route path="/purchases/:invoiceId/details/new" element={<PurchaseInvoiceDetailsFormPage />} />
           <Route path="/purchases/:invoiceId/details/edit/:detailId" element={<PurchaseInvoiceDetailsFormPage />} />
+
         </Route>
       </Routes>
     </Router>

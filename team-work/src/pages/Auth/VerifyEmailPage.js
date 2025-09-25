@@ -5,7 +5,9 @@ import { verifyemail, resend_otp } from '../../api/auth';
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
 import Loader from '../../components/Common/Loader/Loader';
+import IbexProLogo from '../.../../../assets/ibex-pro-logo-light.svg';
 
+import './AuthPages.css';
 const VerifyEmailPage = () => {
     const [otp, setOtp] = useState('');
     const [error, setError] = useState('');
@@ -74,42 +76,53 @@ const VerifyEmailPage = () => {
 
     return (
         <div className="auth-container">
-            {loading && <Loader />}
-            <h2 className="auth-title">التحقق من البريد الإلكتروني</h2>
-            <p>لقد أرسلنا رمز تحقق إلى <strong>{email}</strong>. يرجى إدخاله أدناه.</p>
+            <div className="auth-wrapper">
 
-            <form onSubmit={handleSubmit} className="auth-form">
-                <InputField
-                    label="رمز التحقق (OTP)"
-                    name="otp"
-                    type="text"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    required
-                />
-                <Button type="submit" disabled={loading}>تحقق</Button>
-            </form>
+                {/* --- ✨ العمود الأول: الشعار والعلامة التجارية --- */}
+                <div className="auth-branding">
+                    <img src={IbexProLogo} alt="Ibex Pro Logo" />
+                    <h2>مرحباً بك في IBEX PRO</h2>
+                    <p>نظامك المحاسبي المتكامل لإدارة أعمالك بكفاءة.</p>
+                </div>
+                <div className="auth-card">            {loading && <Loader />}
+                    <h2 className="auth-title">التحقق من البريد الإلكتروني</h2>
+                    <p>لقد أرسلنا رمز تحقق إلى <strong>{email}</strong>. يرجى إدخاله أدناه.</p>
 
-            {/* ٤. إضافة مكان لعرض رسالة النجاح */}
-            {success && <p className="auth-success-message">{success}</p>}
-            {error && <p className="auth-error-message">{error}</p>}
+                    <form onSubmit={handleSubmit} className="auth-form">
+                        <InputField
+                            label="رمز التحقق (OTP)"
+                            name="otp"
+                            type="text"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                            required
+                        />
+                        <Button type="submit" disabled={loading}>تحقق</Button>
+                    </form>
 
-            <div style={{ marginTop: '15px', textAlign: 'center' }}>
-                <Button
-                    onClick={handleResend}
-                    disabled={resendLoading || countdown > 0}
-                    variant="secondary"
-                >
-                    {resendLoading
-                        ? 'جاري الإرسال...'
-                        : countdown > 0
-                            ? `إعادة الإرسال بعد (${countdown}) ثانية`
-                            : '🔄 إعادة إرسال الرمز'
-                    }
-                </Button>
-                {resendMessage && <p style={{ marginTop: '10px' }}>{resendMessage}</p>}
+                    {/* ٤. إضافة مكان لعرض رسالة النجاح */}
+                    {success && <p className="auth-success-message">{success}</p>}
+                    {error && <p className="auth-error-message">{error}</p>}
+
+                    <div style={{ marginTop: '15px', textAlign: 'center' }}>
+                        <Button
+                            onClick={handleResend}
+                            disabled={resendLoading || countdown > 0}
+                            variant="secondary"
+                        >
+                            {resendLoading
+                                ? 'جاري الإرسال...'
+                                : countdown > 0
+                                    ? `إعادة الإرسال بعد (${countdown}) ثانية`
+                                    : '🔄 إعادة إرسال الرمز'
+                            }
+                        </Button>
+                        {resendMessage && <p style={{ marginTop: '10px' }}>{resendMessage}</p>}
+                    </div>
+                </div>
             </div>
         </div>
+
     );
 };
 

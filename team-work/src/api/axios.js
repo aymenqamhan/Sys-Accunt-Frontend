@@ -65,7 +65,12 @@ import axios from 'axios';
 
 const apiClient = axios.create({
 
+
+    baseURL: 'http://localhost:8000/api',
+
+
     baseURL: 'https://as-praivite.vercel.app/api',
+
 });
 
 // --- 1. معترض الطلبات (Request Interceptor) ---

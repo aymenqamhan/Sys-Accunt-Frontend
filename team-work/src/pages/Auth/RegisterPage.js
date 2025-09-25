@@ -5,7 +5,9 @@ import { register } from '../../api/auth';
 import InputField from '../../components/Common/InputField/InputField';
 import Button from '../../components/Common/Button/Button';
 import Loader from '../../components/Common/Loader/Loader';
+import IbexProLogo from '../.../../../assets/ibex-pro-logo-light.svg';
 
+import './AuthPages.css';
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
         email: '',
@@ -61,64 +63,75 @@ const RegisterPage = () => {
 
     return (
         <div className="auth-container">
-            {loading && <Loader />}
-            <h2 className="auth-title">إنشاء حساب جديد</h2>
-            <form onSubmit={handleSubmit} className="auth-form">
-                <InputField
-                    label="البريد الإلكتروني"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="اسم المستخدم"
-                    name="username"
-                    type="text"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="الاسم الكامل"
-                    name="full_name"
-                    type="text"
-                    value={formData.full_name}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="رقم الهاتف"
-                    name="phone"
-                    type="text"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="كلمة المرور"
-                    name="password"
-                    type="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="تأكيد كلمة المرور"
-                    name="password_confirm"
-                    type="password"
-                    value={formData.password_confirm}
-                    onChange={handleChange}
-                    required
-                />
-                <Button type="submit" disabled={loading}>إنشاء حساب</Button>
-            </form>
+            <div className="auth-wrapper">
 
-            {error && <p className="auth-error-message">{error}</p>}
+                {/* --- ✨ العمود الأول: الشعار والعلامة التجارية --- */}
+                <div className="auth-branding">
+                    <img src={IbexProLogo} alt="Ibex Pro Logo" />
+                    <h2>مرحباً بك في IBEX PRO</h2>
+                    <p>نظامك المحاسبي المتكامل لإدارة أعمالك بكفاءة.</p>
+                </div>
+                <div className="auth-card">
+                    {loading && <Loader />}
+                    <h2 className="auth-title">إنشاء حساب جديد</h2>
+                    <form onSubmit={handleSubmit} className="auth-form">
+                        <InputField
+                            label="البريد الإلكتروني"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                        <InputField
+                            label="اسم المستخدم"
+                            name="username"
+                            type="text"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                        />
+                        <InputField
+                            label="الاسم الكامل"
+                            name="full_name"
+                            type="text"
+                            value={formData.full_name}
+                            onChange={handleChange}
+                            required
+                        />
+                        <InputField
+                            label="رقم الهاتف"
+                            name="phone"
+                            type="text"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            required
+                        />
+                        <InputField
+                            label="كلمة المرور"
+                            name="password"
+                            type="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                        <InputField
+                            label="تأكيد كلمة المرور"
+                            name="password_confirm"
+                            type="password"
+                            value={formData.password_confirm}
+                            onChange={handleChange}
+                            required
+                        />
+                        <Button type="submit" disabled={loading}>إنشاء حساب</Button>
+                    </form>
 
-            <div className="auth-links">
-                <Link to="/login">هل لديك حساب؟ تسجيل الدخول</Link>
+                    {error && <p className="auth-error-message">{error}</p>}
+
+                    <div className="auth-links">
+                        <Link to="/login">هل لديك حساب؟ تسجيل الدخول</Link>
+                    </div>
+                </div>
             </div>
         </div>
     );
