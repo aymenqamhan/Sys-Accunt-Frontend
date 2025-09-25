@@ -1,3 +1,4 @@
+
 // import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import { getCustomers, deleteCustomer } from '../../api/customers';
@@ -42,7 +43,7 @@
 //     };
 
 //     const columns = [
-//         // ✨ FIX: Use full_name
+// 
 //         { header: 'اسم العميل', key: 'full_name' },
 //         { header: 'البريد الإلكتروني', key: 'email' },
 //         { header: 'رقم الهاتف', key: 'phone' },
@@ -52,7 +53,7 @@
 //             key: 'actions',
 //             render: (row) => (
 //                 <div>
-//                     {/* ✨ FIX: Use customer_id */}
+//     
 //                     <Button onClick={() => handleEdit(row.customer_id)} style={{ marginRight: '5px' }}>تعديل</Button>
 //                     <Button onClick={() => handleDelete(row.customer_id)} variant="secondary">حذف</Button>
 //                 </div>
@@ -76,6 +77,9 @@
 
 // export default CustomerListPage;
 
+// src/pages/Customers/CustomerListPage.js (Final Merged Version)
+
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCustomers, deleteCustomer } from '../../api/customers';
@@ -94,6 +98,7 @@ const CustomerListPage = () => {
                 setCustomers(response.data);
             } catch (err) {
                 setError('فشل في جلب العملاء.');
+                console.error(err);
             } finally {
                 setLoading(false);
             }
@@ -101,20 +106,28 @@ const CustomerListPage = () => {
         fetchCustomers();
     }, []);
 
-    const handleEdit = (customerId) => {
-        navigate(`/customers/edit/${customerId}`);
+    const handleEdit = (id) => {
+        navigate(`/customers/edit/${id}`);
     };
 
-    const handleDelete = async (customerId) => {
+    const handleDelete = async (id) => {
         if (window.confirm('هل أنت متأكد أنك تريد حذف هذا العميل؟')) {
             try {
+
                 await deleteCustomer(customerId);
                 setCustomers(customers.filter(customer => customer.customer_id !== customerId));
+
+                await deleteCustomer(id);
+                // Use the safer functional update from your branch
+                setCustomers(currentCustomers => currentCustomers.filter(customer => customer.customer_id !== id));
+
             } catch (err) {
                 setError('فشل حذف العميل.');
+                console.error(err);
             }
         }
     };
+
 
     if (loading) return <Loader />;
 
@@ -162,6 +175,37 @@ const CustomerListPage = () => {
                     </div>
                 </div>
             </div>
+
+    const columns = [
+        // Use full_name from the main branch
+        { header: 'الاسم الكامل', key: 'full_name' },
+        { header: 'البريد الإلكتروني', key: 'email' },
+        { header: 'رقم الهاتف', key: 'phone' },
+        { header: 'الهاتف', key: 'phone' },
+        { header: 'العنوان', key: 'address' },
+        {
+            header: 'الإجراءات',
+            key: 'actions',
+            render: (customer) => (
+                <div style={{ display: 'flex', gap: '5px' }}>
+                    <Button onClick={() => handleEdit(customer.customer_id)}>تعديل</Button>
+                    <Button onClick={() => handleDelete(customer.customer_id)} variant="secondary">حذف</Button>
+                </div>
+            )
+        }
+    ];
+
+    if (loading) return <Loader />;
+
+    return (
+        <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h1>إدارة العملاء</h1>
+                <Button onClick={() => navigate('/customers/new')}>+ إضافة عميل جديد</Button>
+            </div>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <Table columns={columns} data={customers} />
+
         </div>
     );
 };

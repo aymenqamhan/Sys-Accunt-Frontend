@@ -25,6 +25,7 @@ const SalesInvoiceListPage = () => {
         fetchInvoices();
     }, []);
 
+
     const handleViewDetails = (invoiceId) => {
         navigate(`/sales/${invoiceId}/details`);
     };
@@ -34,6 +35,14 @@ const SalesInvoiceListPage = () => {
             try {
                 await deleteSalesInvoice(invoiceId);
                 setInvoices(currentInvoices => currentInvoices.filter(inv => inv.invoice_id !== invoiceId));
+
+    const handleEdit = (id) => navigate(`/sales/edit/${id}`);
+    const handleDelete = async (id) => {
+        if (window.confirm('هل أنت متأكد من حذف هذه الفاتورة؟')) {
+            try {
+                await deleteSalesInvoice(id);
+                setInvoices(current => current.filter(inv => inv.invoice_id !== id));
+
             } catch (err) {
                 setError('فشل حذف الفاتورة.');
             }
@@ -43,6 +52,7 @@ const SalesInvoiceListPage = () => {
     const columns = [
         { header: 'رقم الفاتورة', key: 'invoice_id' },
         { header: 'العميل', key: 'customer_name' },
+
         { header: 'البائع', key: 'user_name' },
         { header: 'الإجمالي', key: 'total' },
         { header: 'حالة الدفع', key: 'payment_status' },
@@ -54,12 +64,27 @@ const SalesInvoiceListPage = () => {
                 <div style={{ display: 'flex', gap: '5px' }}>
                     <Button onClick={() => handleViewDetails(row.invoice_id)}>عرض التفاصيل</Button>
                     <Button onClick={() => handleDelete(row.invoice_id)} variant="secondary">حذف</Button>
+
+        { header: 'تاريخ الفاتورة', key: 'invoice_date' },
+        { header: 'الإجمالي', key: 'total_amount' },
+        { header: 'حالة الدفع', key: 'payment_status' },
+        {
+            header: 'الإجراءات',
+            key: 'actions',
+            render: (invoice) => (
+                <div style={{ display: 'flex', gap: '5px' }}>
+                    {/* --- ✨ زر التفاصيل المضاف --- */}
+                    <Button onClick={() => navigate(`/sales/${invoice.invoice_id}/details`)}>التفاصيل</Button>
+                    <Button onClick={() => handleEdit(invoice.invoice_id)}>تعديل</Button>
+                    <Button onClick={() => handleDelete(invoice.invoice_id)} variant="secondary">حذف</Button>
+
                 </div>
             )
         }
     ];
 
     if (loading) return <Loader />;
+
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
     return (
@@ -68,6 +93,16 @@ const SalesInvoiceListPage = () => {
                 <h1>إدارة فواتير المبيعات</h1>
                 <Button onClick={() => navigate('/sales/new')}>+ إضافة فاتورة جديدة</Button>
             </div>
+
+
+    return (
+        <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h1>فواتير المبيعات</h1>
+                <Button onClick={() => navigate('/sales/new')}>+ فاتورة جديدة</Button>
+            </div>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+
             <Table columns={columns} data={invoices} />
         </div>
     );
