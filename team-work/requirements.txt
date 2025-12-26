@@ -16,3 +16,5 @@ axios: مكتبة لإنشاء طلبات HTTP إلى الواجهة الخلف�
 
 نسوي الامر التالي لتثبت المكاتب بالكامل
 npm install
+
+npm install @supabase/supabase-js react-icons

@@ -292,6 +292,9 @@ const PurchaseInvoiceFormPage = () => {
                         <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                             <button type="submit" className="btn btn-primary px-4" disabled={loading}>{loading ? 'جاري الحفظ...' : 'حفظ الفاتورة'}</button>
                         </div>
+                        <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                            العودة للوحة التحكم
+                        </button>
                     </form>
                 </div>
             </div>

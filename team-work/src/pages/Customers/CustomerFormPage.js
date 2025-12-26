@@ -157,6 +157,9 @@ const CustomerFormPage = () => {
                             <button type="submit" className="btn btn-primary px-4" disabled={loading}>
                                 {loading ? 'جاري الحفظ...' : 'حفظ العميل'}
                             </button>
+                            <button className="btn btn-secondary ms-2" onClick={() => navigate('/dashboard')}>
+                                العودة للوحة التحكم
+                            </button>
                         </div>
                     </form>
                 </div>

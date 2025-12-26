@@ -199,6 +199,17 @@ const InventoryFormPage = () => {
                             <button type="submit" className="btn btn-primary px-4" disabled={loading}>
                                 {loading ? 'جاري الحفظ...' : 'حفظ الحركة'}
                             </button>
+                            <button className="btn btn-secondary ms-2" onClick={() => navigate('/dashboard')}>
+                                العودة للوحة التحكم
+                            </button>
+
+                            <button
+                                type="button"
+                                className="btn btn-success px-4"
+                                onClick={() => navigate('/inventory-report')}
+                            >
+                                تقرير حركة المخزون
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -142,6 +142,9 @@ const PurchaseInvoiceDetailsListPage = () => {
                 <div className="card-header bg-light p-3 d-flex justify-content-between align-items-center">
                     <h1 className="h4 mb-0">تفاصيل فاتورة الشراء رقم #{invoice.invoice_id}</h1>
                     <button onClick={() => navigate(`/purchases/${invoiceId}/details/new`)} className="btn btn-primary btn-sm">+ إضافة عنصر</button>
+                    <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                        العودة للوحة التحكم
+                    </button>
                 </div>
                 <div className="card-body">
                     <div className="row mb-3">

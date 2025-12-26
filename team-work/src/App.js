@@ -83,8 +83,8 @@
 
 
 
-
-import React from 'react';
+import React, { useEffect } from 'react';
+import { supabase } from './api/supabase';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 
 // --- استيراد المكونات الرئيسية ---
@@ -99,6 +99,7 @@ import VerifyEmailPage from './pages/Auth/VerifyEmailPage';
 // --- استيراد الصفحات الداخلية ---
 import DashboardPage from './pages/Dashboard/DashboardPage';
 import TestPage from './pages/TestPage';
+import SupabaseTestPage from './pages/Test/SupabaseTestPage';
 import UserListPage from './pages/Users/UserListPage';
 import UserFormPage from './pages/Users/UserFormPage';
 // +++ استيراد صفحات الملف الشخصي +++
@@ -147,6 +148,9 @@ import SalesInvoiceFormPage from './pages/Sales/SalesInvoiceFormPage';
 import SalesInvoiceDetailsListPage from './pages/Sales/SalesInvoiceDetailsListPage';
 import SalesInvoiceDetailsFormPage from './pages/Sales/SalesInvoiceDetailsFormPage';
 
+import InventoryReportPage from './pages/Inventory/InventoryReportPage';
+import NotificationListPage from './pages/Notifications/NotificationListPage';
+import NotificationFormPage from './pages/Notifications/NotificationFormPage';
 
 
 /**
@@ -161,6 +165,23 @@ const AppLayout = () => {
 };
 
 const App = () => {
+  useEffect(() => {
+    const checkConnection = async () => {
+      console.log("Checking Supabase connection...");
+
+      // ملاحظة: تأكد أن لديك جدول باسم 'users' في Supabase
+      // أو غير الاسم إلى جدول موجود فعلياً مثل 'products' للتجربة
+      const { data, error } = await supabase.from('users').select('*').limit(1);
+
+      if (error) {
+        console.error('Supabase Error:', error);
+      } else {
+        console.log('Supabase Connected Successfully! Data Sample:', data);
+      }
+    };
+
+    checkConnection();
+  }, []);
   return (
     <Router>
       <Routes>
@@ -175,6 +196,7 @@ const App = () => {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/change-password" element={<ChangePasswordPage />} /> {/* تصحيح بسيط لاسم المسار */}
           <Route path="/test" element={<TestPage />} />
+          <Route path="/test-supabase" element={<SupabaseTestPage />} />
 
           {/* المسارات الخاصة بالمستخدمين */}
           <Route path="/users" element={<UserListPage />} />
@@ -257,6 +279,7 @@ const App = () => {
 
 
 
+          <Route path="/inventory-report" element={<InventoryReportPage />} />
 
 
 
@@ -268,6 +291,9 @@ const App = () => {
 
           {/* أضف هنا بقية صفحاتك الداخلية */}
           {/* <Route path="/verify-email" element={<VerifyEmailPage />} /> */}
+
+          <Route path="/notifications" element={<NotificationListPage />} />
+          <Route path="/notifications/new" element={<NotificationFormPage />} />
 
         </Route>
       </Routes>

@@ -50,6 +50,9 @@ const ProductListPage = () => {
                     <i className="bi bi-plus-lg me-2"></i> {/* أيقونة اختيارية */}
                     إضافة منتج جديد
                 </button>
+                <button className="btn btn-secondary ms-2" onClick={() => navigate('/dashboard')}>
+                    العودة للوحة التحكم
+                </button>
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}

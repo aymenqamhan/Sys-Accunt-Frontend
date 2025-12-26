@@ -108,6 +108,9 @@ const ProfilePage = () => {
                         <button onClick={() => navigate('/profile/edit')} className="btn btn-primary">
                             تعديل الملف الشخصي
                         </button>
+                        <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                            العودة للوحة التحكم
+                        </button>
                     </div>
                 </div>
             </div>

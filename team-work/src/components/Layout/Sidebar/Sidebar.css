@@ -4,28 +4,28 @@
 
 .sidebar {
   width: 260px;
-  /* استخدام لون داكن من هوية مشروعك */
-  background-color: #34528f; /* يمكنك استخدام var(--neutral-900) إذا كان أغمق */
+  background-color: #B5B5B5; 
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-md);
+  padding: 0;   /* إزالة البادينغ الجانبي */
   position: sticky;
   top: 0;
   transition: width 0.3s ease;
 }
 
 .sidebar-header {
-  padding-bottom: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md) 0; /* فقط من الأعلى والأسفل */
+  margin: 0;
   text-align: center;
+  background-color: B5B5B5;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo {
   max-width: 130px;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto; /* يضمن أن الصورة تكون بالوسط */
 }
 
 .sidebar-nav ul {
@@ -41,8 +41,9 @@
   padding: 12px var(--spacing-md);
   border-radius: var(--border-radius-main);
   text-decoration: none;
-  color: #00eeff; /* لون رمادي فاتح للنص العادي */
-  font-weight: 500;
+  color: #000000; /* لون رمادي فاتح للنص العادي */
+  font-weight: 900;
+  font-size: 20px;
   transition: background-color 0.2s, color 0.2s;
   margin-bottom: var(--spacing-sm);
 }
@@ -62,7 +63,7 @@
   background-color: var(--primary-500); /* اللون الأزرق الأساسي للخلفية */
   color: var(--white); /* لون أبيض للنص والأيقونة */
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(7, 56, 214, 0.3); /* ظل أزرق ناعم */
+box-shadow: 0 4px 12px rgba(7, 56, 214, 0.3);  
 }
 
 /* إذا كنت تستخدم RTL (اتجاه اليمين لليسار)، استخدم هذا الكود بدلاً من الكود أعلاه للمؤشر */

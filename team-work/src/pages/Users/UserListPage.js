@@ -128,6 +128,9 @@ const UserListPage = () => {
                 <button className="btn btn-primary" onClick={() => navigate('/users/new')}>
                     + إضافة مستخدم جديد
                 </button>
+                <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                    العودة للوحة التحكم
+                </button>
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}

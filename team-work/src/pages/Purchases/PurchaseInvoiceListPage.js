@@ -124,6 +124,9 @@ const PurchaseInvoiceListPage = () => {
                 <button className="btn btn-primary" onClick={() => navigate('/purchases/new')}>
                     + إضافة فاتورة شراء
                 </button>
+                <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                    العودة للوحة التحكم
+                </button>
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}

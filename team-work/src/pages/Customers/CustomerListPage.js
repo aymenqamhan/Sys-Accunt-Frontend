@@ -125,6 +125,9 @@ const CustomerListPage = () => {
                 <button className="btn btn-primary" onClick={() => navigate('/customers/new')}>
                     + إضافة عميل جديد
                 </button>
+                <button className="btn btn-secondary ms-2" onClick={() => navigate('/dashboard')}>
+                    العودة للوحة التحكم
+                </button>
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}

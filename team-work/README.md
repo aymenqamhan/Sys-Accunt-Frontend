@@ -1,7 +1,7 @@
-
 # 📌 هيكلية المشروع
 
 المشروع مبني باستخدام **React** بهيكلية ملفات قياسية تساعد على التعامل مع Api للتكامل مع جزء الــ backend وتتميز :
+
 - 🗂️ التنظيم
 - ⚡ سهولة الصيانة
 - 🚀 قابلية التوسع
@@ -49,6 +49,7 @@
 │   └── index.js
 └── package.json
 ```
+
 📖 شرح المجلدات
 public/ → يحتوي على الأصول الثابتة مثل index.html وملفات PWA (manifest, icons).
 
@@ -70,14 +71,14 @@ App.js: المكون الرئيسي للتطبيق.
 
 index.js: نقطة الدخول.
 
-
 ⚙️ تشغيل المشروع
 
 ### 1. نسخ المشروع الخاص بالـــ backend
+
 ```bash
 git clone https://github.com/Akil-x/AS.git
 cd AS
-````
+```
 
 ### 2. إنشاء وتفعيل البيئة الافتراضية
 
@@ -110,18 +111,19 @@ python manage.py runserver
 
 ---
 
-
-
-
 1️⃣ نسخ المشروع الخاص بالــ frontend
+
 ```bash
 git clone https://github.com/aymenqamhan/Sys-Accunt-Frontend.git
 cd team-work
 ```
+
 2️⃣ تثبيت المتطلبات
+
 ```bash
 npm install
 ```
+
 3️⃣ تشغيل الخادم المحلي للـ Backend
 
 ```bash
@@ -131,20 +133,53 @@ python manage.py runserver
 🔗 يعمل على: http://127.0.0.1:8000/
 
 4️⃣ تشغيل واجهة React (في Terminal آخر)
+
 ```bash
 npm start
 ```
+
 🔗 يعمل على: http://localhost:3000/
 
+---
 
+# تحديث نظام الإشعارات (New Notification System)
 
+تمت إعادة بناء نظام الإشعارات بالكامل في هذا التحديث ليدعم التنبيهات اللحظية (Realtime) وتوحيد الهوية البصرية للنظام.
 
+## أبرز الاضافات
 
+### 1. إشعارات لحظية (Realtime Support)
 
+- تم الربط مع خدمة **Supabase Realtime**.
+- يستمع النظام الآن لأي تغييرات في قاعدة البيانات (Event: `INSERT`) ويقوم بإظهار الإشعار للمستخدم **فوراً** دون الحاجة لإعادة تحميل الصفحة (Refresh).
 
+### 2. واجهة مستخدم جديدة (UI/UX Overhaul)
 
+- **الهوية البصرية:** تطبيق ألوان الهوية المعتمدة (Primary & Neutral Colors).
+- **الخطوط:** اعتماد خط **Cairo** في جميع واجهات الإشعارات.
+- **تفاعلية:** تمييز بصري واضح بين الإشعارات المقروءة وغير المقروءة، مع ألوان مخصصة لكل نوع تنبيه (Info, Warning, Error, Success).
 
-### this is opcional 
+### 3. إدارة متقدمة للإرسال
+
+- **نموذج موحد:** صفحة جديدة تتيح للمسؤول إرسال إشعار لمستخدم واحد (**Single**) أو لمجموعة مستخدمين دفعة واحدة (**Bulk**).
+- **التحقق:** إضافة قيود للتحقق من صحة البيانات قبل الإرسال لمنع الأخطاء.
+
+---
+
+## متطلبات التشغيل لهذا التحديث
+
+لضمان عمل الإشعارات الجديدة، يرجى تنفيذ الخطوات التالية في مجلد مشروع الـــ **Frontend**:
+
+### 1️ تثبيت المكتبات الجديدة
+
+تمت إضافة مكتبات للتعامل مع Supabase والأيقونات، لذا يجب تشغيل:
+
+```bash
+npm install @supabase/supabase-js react-icons
+```
+
+### this is opcional
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -215,4 +250,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-

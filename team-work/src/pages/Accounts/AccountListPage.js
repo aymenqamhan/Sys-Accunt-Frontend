@@ -47,6 +47,9 @@ const AccountListPage = () => {
                 <button className="btn btn-primary" onClick={() => navigate('/accounts/new')}>
                     + إضافة حساب جديد
                 </button>
+                <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                    العودة للوحة التحكم
+                </button>
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}

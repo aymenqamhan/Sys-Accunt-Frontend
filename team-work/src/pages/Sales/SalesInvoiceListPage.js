@@ -67,6 +67,9 @@ const SalesInvoiceListPage = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h1>إدارة فواتير المبيعات</h1>
                 <Button onClick={() => navigate('/sales/new')}>+ إضافة فاتورة جديدة</Button>
+                <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                    العودة للوحة التحكم
+                </button>
             </div>
             <Table columns={columns} data={invoices} />
         </div>

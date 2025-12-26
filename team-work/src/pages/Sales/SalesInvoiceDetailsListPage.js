@@ -76,6 +76,9 @@ const SalesInvoiceDetailsListPage = () => {
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
                 <Button onClick={() => navigate(`/sales/${invoiceId}/details/new`)}>+ إضافة منتج جديد</Button>
             </div>
+            <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                العودة للوحة التحكم
+            </button>
 
             <Table columns={columns} data={invoice.sales_invoice_details} />
         </div>

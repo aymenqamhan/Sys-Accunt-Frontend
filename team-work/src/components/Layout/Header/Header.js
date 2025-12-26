@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUserData } from '../../../api/apiService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { logout } from '../../../api/auth';
 import Button from '../../Common/Button/Button';
+import { LuBell } from 'react-icons/lu';
 import './Header.css';
 
 import userAvatar from '../../../assets/user-avatar.png';
@@ -68,6 +69,9 @@ const Header = () => {
         <h2>لوحة التحكم</h2>
       </div>
       <div className="user-profile">
+        <Link to="/notifications" className="notification-icon" style={{ marginRight: '15px', color: '#555', fontSize: '1.2rem' }}>
+          <LuBell />
+        </Link>
         {renderUserContent()}
         {/* زر الخروج يظهر فقط بعد التحميل وللمستخدم المسجل دخوله */}
         {!loading && user && (

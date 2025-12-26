@@ -42,7 +42,6 @@ import axios from 'axios';
 import { refreshToken as refreshTokenAPI } from './auth';
 
 const apiClient = axios.create({
-    // 👇 --- تم تصحيح الرابط هنا --- 👇
     baseURL: 'http://localhost:8000/api',
 });
 

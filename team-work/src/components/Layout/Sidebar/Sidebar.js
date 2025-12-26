@@ -3,17 +3,18 @@ import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 import {
   LuLayoutDashboard, LuBoxes, LuShoppingCart,
-  LuUsers, LuReceipt, LuSettings
+  LuUsers, LuReceipt, LuSettings, LuBell
 } from 'react-icons/lu';
 
-import IbexProLogo from '../../../assets/ibex-pro-logo-light.svg';
+import IbexProLogo from '../../../assets/aifaceswap-output.png';
 
 const navLinks = [
-  { to: '/', text: 'لوحة التحكم', icon: <LuLayoutDashboard /> },
+  { to: '/dashboard', text: 'لوحة التحكم', icon: <LuLayoutDashboard /> },
   { to: '/sales', text: 'إدارة المبيعات', icon: <LuShoppingCart /> },
   { to: '/purchases', text: 'إدارة المشتريات', icon: <LuReceipt /> },
   { to: '/inventory', text: 'إدارة المخزون', icon: <LuBoxes /> },
   { to: '/users', text: 'إدارة المستخدمين', icon: <LuUsers /> },
+  { to: '/notifications', text: 'الإشعارات', icon: <LuBell /> },
   { to: '/change-password', text: 'تغيير كلمة المرور', icon: <LuSettings /> },
   { to: '/profile', text: 'ملفي الشخصي', icon: <LuSettings /> },
 ];

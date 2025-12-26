@@ -85,6 +85,9 @@ const SalesInvoiceDetailsFormPage = () => {
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 <Button type="submit" disabled={loading}>{loading ? 'جاري الحفظ...' : 'حفظ العنصر'}</Button>
+                <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                    العودة للوحة التحكم
+                </button>
             </form>
         </div>
     );

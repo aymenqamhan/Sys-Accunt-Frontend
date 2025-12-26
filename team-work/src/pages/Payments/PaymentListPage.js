@@ -127,6 +127,9 @@ const PaymentListPage = () => {
                 <button className="btn btn-primary" onClick={() => navigate('/payments/new')}>
                     + إضافة دفعة جديدة
                 </button>
+                <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                    العودة للوحة التحكم
+                </button>
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}

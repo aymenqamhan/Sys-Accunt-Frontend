@@ -132,6 +132,9 @@ const ReturnListPage = () => {
                 <button className="btn btn-primary" onClick={() => navigate('/returns/new')}>
                     + إضافة مرتجع جديد
                 </button>
+                <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                    العودة للوحة التحكم
+                </button>
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}

@@ -408,6 +408,9 @@ const UserFormPage = () => {
                             <button type="submit" className="btn btn-primary px-4" disabled={loading}>
                                 {loading ? 'جاري الحفظ...' : 'حفظ المستخدم'}
                             </button>
+                            <button className="btn btn-secondary" onClick={() => navigate('/dashboard')}>
+                                العودة للوحة التحكم
+                            </button>
                         </div>
                     </form>
                 </div>
